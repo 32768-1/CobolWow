@@ -1,6 +1,7 @@
 ﻿using System;
-using CobolWow.Network;
+
 using CobolWow.Game.Entitys;
+using CobolWow.Network.Packets;
 using CobolWow.Communication.Outgoing.World.Update;
 
 namespace CobolWow.Communication.Outgoing.World.Movement

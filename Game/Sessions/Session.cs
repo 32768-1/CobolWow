@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 
 using CobolWow.Tools;
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 
 namespace CobolWow.Game.Sessions
 {

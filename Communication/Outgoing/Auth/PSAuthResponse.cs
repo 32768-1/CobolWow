@@ -1,5 +1,5 @@
-﻿using CobolWow.Network;
-using CobolWow.Game.Constants.Login;
+﻿using CobolWow.Game.Constants.Login;
+using CobolWow.Network.Packets;
 
 namespace CobolWow.Communication.Outgoing.Auth
 {

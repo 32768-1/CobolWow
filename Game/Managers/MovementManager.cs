@@ -1,9 +1,9 @@
 ﻿using CobolWow.Net;
 using CobolWow.Tools;
-using CobolWow.Network;
 using CobolWow.Game.Entitys;
 using CobolWow.Game.Handlers;
 using CobolWow.Communication;
+using CobolWow.Network.Packets;
 using System.Collections.Generic;
 using CobolWow.Tools.Database.Helpers;
 using CobolWow.Communication.Outgoing.World.Update;

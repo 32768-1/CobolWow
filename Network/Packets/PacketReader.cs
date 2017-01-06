@@ -5,7 +5,7 @@ using System.Text;
 using CobolWow.Game.Constants;
 using CobolWow.Tools.Cryptography;
 
-namespace CobolWow.Network
+namespace CobolWow.Network.Packets
 {
    public class PacketReader : BinaryReader
    {

@@ -1,7 +1,7 @@
 ﻿using System;
 using CobolWow.Communication;
 
-namespace CobolWow.Network
+namespace CobolWow.Network.Packets
 {
    public enum PacketHandleType
    {

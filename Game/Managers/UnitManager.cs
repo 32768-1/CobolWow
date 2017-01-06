@@ -2,10 +2,10 @@
 
 using CobolWow.Net;
 using CobolWow.Tools;
-using CobolWow.Network;
 using CobolWow.Game.Entitys;
 using CobolWow.Game.Handlers;
 using CobolWow.Communication;
+using CobolWow.Network.Packets;
 using CobolWow.Communication.Outgoing.World.Entity;
 
 namespace CobolWow.Game.Managers

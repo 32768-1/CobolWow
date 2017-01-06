@@ -1,7 +1,7 @@
 ﻿using System;
-using CobolWow.Network;
 using CobolWow.Game.Entitys;
 using CobolWow.Communication.Outgoing.World.Update;
+using CobolWow.Network.Packets;
 
 namespace CobolWow.Communication.Outgoing.World.Spell
 {

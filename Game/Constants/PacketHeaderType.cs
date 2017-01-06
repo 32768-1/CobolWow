@@ -1,5 +1,5 @@
 ﻿using CobolWow.Communication;
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 
 namespace CobolWow.Game.Constants
 {

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Database.Helpers;
 
 namespace CobolWow.Communication.Incoming.Character

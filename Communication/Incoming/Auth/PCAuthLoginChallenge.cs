@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 
 namespace CobolWow.Communication.Incoming.Auth
 {

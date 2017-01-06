@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Linq;
 using System.Security.Cryptography;
 
 using CobolWow.Net;
@@ -20,7 +21,6 @@ using CobolWow.Communication.Outgoing.World;
 using CobolWow.Communication.Outgoing.World.ActionBarButton;
 using CobolWow.Communication.Outgoing.World.Player;
 using CobolWow.Communication.Outgoing.World.Update;
-using System.Linq;
 
 namespace CobolWow.Game.Managers
 {

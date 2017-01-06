@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using CobolWow.Network;
-using CobolWow.Tools.Database.Helpers;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Database.Tables;
+using CobolWow.Tools.Database.Helpers;
 
 namespace CobolWow.Communication.Outgoing.World.ActionBarButton
 {

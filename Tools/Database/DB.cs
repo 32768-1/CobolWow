@@ -27,7 +27,7 @@ namespace CobolWow.Tools.Database
             Character.CreateTable(typeof(CharacterInventory));
             Character.CreateTable(typeof(CharacterMail));
 
-            DBAccounts.CreateAccount("Wesko", "ira31793");
+            DBAccounts.CreateAccount("Test", "test");
 
             World = new SQLiteConnection(ConfigManager.DBWORLD);
             World.CreateTable(typeof(CharacterCreationSpell));

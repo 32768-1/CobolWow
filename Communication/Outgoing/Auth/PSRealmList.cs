@@ -1,6 +1,7 @@
 ﻿using System;
-using CobolWow.Network;
+
 using CobolWow.Tools.Config;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Extensions;
 using CobolWow.Game.Constants.Login;
 

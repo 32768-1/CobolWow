@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 using CobolWow.Game.Constants.Game;
 
 namespace CobolWow.Communication.Outgoing.World.Chat

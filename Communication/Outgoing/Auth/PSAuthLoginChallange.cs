@@ -2,6 +2,7 @@
 using CobolWow.Game.Constants;
 using CobolWow.Tools.Extensions;
 using CobolWow.Tools.Cryptography;
+using CobolWow.Network.Packets;
 
 namespace CobolWow.Communication.Outgoing.Auth
 {

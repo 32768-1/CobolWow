@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 
 using CobolWow.Tools;
-using CobolWow.Network;
 using CobolWow.Tools.DBC;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.DBC.Tables;
 using CobolWow.Tools.Database.Tables;
 

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Collections.Generic;
 
 using CobolWow.Tools;
-using CobolWow.Network;
 using CobolWow.Game.Entitys;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Extensions;
 using CobolWow.Tools.Database.Tables;
 using CobolWow.Game.Constants.Game.Update;

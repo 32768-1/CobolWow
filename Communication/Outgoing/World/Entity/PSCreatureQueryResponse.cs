@@ -1,7 +1,7 @@
 ﻿using System;
-using CobolWow.Network;
-using CobolWow.Game.Entitys;
 
+using CobolWow.Game.Entitys;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Extensions;
 
 namespace CobolWow.Communication.Outgoing.World.Entity

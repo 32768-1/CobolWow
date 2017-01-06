@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using CobolWow.Game.Constants;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 
-namespace CobolWow.Network
+namespace CobolWow.Network.Packets
 {
    public class PacketWriter : BinaryWriter
    {

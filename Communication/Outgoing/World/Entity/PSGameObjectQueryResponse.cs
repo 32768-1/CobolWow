@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
-
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Database.Tables;
 
 namespace CobolWow.Communication.Outgoing.World.Entity

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using CobolWow.Network;
 using CobolWow.Game.Entitys;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Extensions;
 using CobolWow.Tools.Database.Tables;
 using CobolWow.Tools.Database.Helpers;

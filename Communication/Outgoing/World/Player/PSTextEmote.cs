@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 
 namespace CobolWow.Communication.Outgoing.World.Player
 {

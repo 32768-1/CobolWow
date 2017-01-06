@@ -1,7 +1,7 @@
 ﻿using CobolWow.Communication;
 using CobolWow.Game.Constants;
 
-namespace CobolWow.Network
+namespace CobolWow.Network.Packets
 {
    public class WorldPacket : Packet
     {

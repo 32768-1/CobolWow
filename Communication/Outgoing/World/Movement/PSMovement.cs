@@ -2,7 +2,7 @@
 using System.IO;
 
 using CobolWow.Net;
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 using CobolWow.Communication.Outgoing.World.Update;
 using CobolWow.Communication.Incoming.World.Movement;
 

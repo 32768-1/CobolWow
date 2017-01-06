@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 using CobolWow.Net;
 using CobolWow.Tools;
-using CobolWow.Network;
 using CobolWow.Communication;
 using CobolWow.Game.Handlers;
+using CobolWow.Network.Packets;
 using CobolWow.Communication.Outgoing.Auth;
 using CobolWow.Communication.Outgoing.World.Logout;
 

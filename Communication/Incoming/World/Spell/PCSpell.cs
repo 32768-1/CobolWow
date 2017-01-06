@@ -1,4 +1,4 @@
-﻿using CobolWow.Network;
+﻿using CobolWow.Network.Packets;
 
 namespace CobolWow.Communication.Incoming.World.Spell
 {

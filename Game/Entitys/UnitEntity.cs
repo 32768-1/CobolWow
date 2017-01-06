@@ -7,6 +7,7 @@ using CobolWow.Network;
 using CobolWow.Tools.DBC;
 using CobolWow.Communication;
 using CobolWow.Game.Managers;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Extensions;
 using CobolWow.Tools.DBC.Tables;
 using CobolWow.Tools.Database.Tables;

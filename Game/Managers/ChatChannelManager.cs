@@ -6,6 +6,7 @@ using CobolWow.Tools;
 using CobolWow.Network;
 using CobolWow.Communication;
 using CobolWow.Game.Handlers;
+using CobolWow.Network.Packets;
 using CobolWow.Game.Constants.Game;
 using CobolWow.Tools.Database.Tables;
 using CobolWow.Tools.Database.Helpers;

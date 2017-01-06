@@ -3,10 +3,9 @@ using System.IO;
 using System.Net.Sockets;
 
 using CobolWow.Tools;
-using CobolWow.Network;
 using CobolWow.Game.Handlers;
 using CobolWow.Communication;
-
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Cryptography;
 
 namespace CobolWow.Game.Sessions

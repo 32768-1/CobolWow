@@ -1,4 +1,4 @@
-﻿using CobolWow.Network;
+﻿using CobolWow.Network.Packets;
 using CobolWow.Game.Constants.Game.Mail;
 
 namespace CobolWow.Communication.Outgoing.World.Mail

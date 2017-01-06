@@ -190,7 +190,7 @@
     <Compile Include="Game\Spells\SpellCollection.cs" />
     <Compile Include="Game\World.cs" />
     <Compile Include="Network\LoginServer.cs" />
-    <Compile Include="Network\WorldPacket.cs" />
+    <Compile Include="Network\Packets\WorldPacket.cs" />
     <Compile Include="Network\WorldServer.cs" />
     <Compile Include="Tools\Chat\ChatCommandBase.cs" />
     <Compile Include="Tools\Chat\ChatCommandNode.cs" />
@@ -229,7 +229,7 @@
     <Compile Include="Game\Constants\Globals.cs" />
     <Compile Include="Game\Constants\Login\AccountStatus.cs" />
     <Compile Include="Game\Constants\PacketHeaderType.cs" />
-    <Compile Include="Network\ServerPacket.cs" />
+    <Compile Include="Network\Packets\ServerPacket.cs" />
     <Compile Include="Tools\Chat\ChatCommandAttribute.cs" />
     <Compile Include="Tools\Chat\ChatCommandParser.cs" />
     <Compile Include="Tools\Chat\Commands\Spell.cs" />
@@ -241,10 +241,10 @@
     <Compile Include="Communication\Incoming\Auth\PCAuthLoginProof.cs" />
     <Compile Include="Communication\Outgoing\World\WorldOpcodes.cs" />
     <Compile Include="Communication\Incoming\Auth\PCAuthLoginChallenge.cs" />
-    <Compile Include="Network\Packet.cs" />
-    <Compile Include="Network\PacketReader.cs" />
-    <Compile Include="Network\PacketType.cs" />
-    <Compile Include="Network\PacketWriter.cs" />
+    <Compile Include="Network\Packets\Packet.cs" />
+    <Compile Include="Network\Packets\PacketReader.cs" />
+    <Compile Include="Network\Packets\PacketType.cs" />
+    <Compile Include="Network\Packets\PacketWriter.cs" />
     <Compile Include="Tools\Cryptography\VanillaCrypt.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="Game\Sessions\RealmSession.cs" />

@@ -1,8 +1,8 @@
 ﻿using System;
 using CobolWow.Net;
-using CobolWow.Network;
 using CobolWow.Game.Entitys;
 using CobolWow.Communication;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Extensions;
 
 namespace CobolWow.Tools.Chat.Commands

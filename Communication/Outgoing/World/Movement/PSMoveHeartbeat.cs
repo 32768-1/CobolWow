@@ -1,5 +1,5 @@
 ﻿using System;
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Database.Tables;
 using CobolWow.Game.Constants.Game.Update;
 using CobolWow.Communication.Outgoing.World.Update;

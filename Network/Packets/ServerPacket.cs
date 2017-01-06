@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using CobolWow.Communication;
 
-namespace CobolWow.Network
+namespace CobolWow.Network.Packets
 {
    public class ServerPacket : BinaryWriter
    {

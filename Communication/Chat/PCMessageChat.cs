@@ -1,4 +1,5 @@
 ﻿using CobolWow.Network;
+using CobolWow.Network.Packets;
 using CobolWow.Game.Constants.Game;
 
 namespace CobolWow.Communication.Incoming.World.Chat

@@ -1,9 +1,9 @@
 ﻿using System;
-using CobolWow.Network;
+using CobolWow.Network.Packets;
 
 namespace CobolWow.Communication.Outgoing.World.Logout
 {
-   class SCLogoutResponse : ServerPacket
+   public class SCLogoutResponse : ServerPacket
    {
       public SCLogoutResponse() : base(WorldOpcodes.SMSG_LOGOUT_RESPONSE)
       {

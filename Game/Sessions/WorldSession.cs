@@ -10,6 +10,7 @@ using CobolWow.Game.Managers;
 using CobolWow.Game.Sessions;
 using CobolWow.Game.Handlers;
 using CobolWow.Communication;
+using CobolWow.Network.Packets;
 using CobolWow.Tools.Cryptography;
 using CobolWow.Tools.Database.Tables;
 using CobolWow.Tools.Database.Helpers;
