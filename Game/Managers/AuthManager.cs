@@ -26,7 +26,6 @@ namespace CobolWow.Game.Managers
 {
    public class AuthManager
    {
-      private static Log Logger = new Log();
       public static void Boot()
       {
          WorldDataRouter.AddHandler<PCAuthSession>(WorldOpcodes.CMSG_AUTH_SESSION, OnAuthSession);
@@ -36,7 +35,7 @@ namespace CobolWow.Game.Managers
          LoginDataRouter.AddHandler(LoginOpcodes.REALM_LIST, OnRealmList);
          WorldDataRouter.AddHandler(WorldOpcodes.CMSG_UPDATE_ACCOUNT_DATA, OnUpdateAccount);
 
-         Logger.Print(LogType.Information, "AuthManager Initialized.");
+         Logger.Log(LogType.Information, "AuthManager Initialized.");
       }
 
       private static void OnRealmList(LoginSession session, byte[] packet)
@@ -76,14 +75,14 @@ namespace CobolWow.Game.Managers
 
       private static void OnUpdateAccount(WorldSession session, byte[] data)
       {
-         Logger.Print(LogType.Debug, "AuthManager OnUpdateAccount.");
+         Logger.Log(LogType.Debug, "AuthManager OnUpdateAccount.");
          //Log.Print(LogType.Map, "Length: " + length + " Real Length: " + _dataBuffer.Length);
          //crypt.decrypt(new byte[(int)2 * 6]);
       }
 
       private static void OnPlayerLogin(WorldSession session, PCPlayerLogin packet)
       {
-         Logger.Print(LogType.Debug, "AuthManager OnPlayerLogin. - Todo Spells");
+         Logger.Log(LogType.Debug, "AuthManager OnPlayerLogin. - Todo Spells");
 
          session.Character = DBCharacters.Characters.Find(character => character.GUID == packet.GUID);
          session.SendPacket(new LoginVerifyWorld(session.Character.MapID, session.Character.X, session.Character.Y, session.Character.Z, 0));
@@ -106,7 +105,7 @@ namespace CobolWow.Game.Managers
          session.Account = DBAccounts.GetAccount(packet.AccountName);
          session.crypt = new VanillaCrypt();
          session.crypt.init(Helper.HexToByteArray(session.Account.SessionKey));
-         Logger.Print(LogType.Debug, "AuthManager Started Encryption");
+         Logger.Log(LogType.Debug, "AuthManager Started Encryption");
          session.SendPacket(new PSAuthResponse());
       }
 

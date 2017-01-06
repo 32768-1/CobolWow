@@ -8,8 +8,6 @@ namespace CobolWow.Game.Sessions
 {
    public abstract class Session
    {
-      private Log Logger = new Log();
-
       public const int BUFFER_SIZE = 2048 * 2;
       public byte[] BUFFER = new byte[BUFFER_SIZE];
       public byte[] RECIEVE_BUFFER = new byte[0]; //Dynamic
@@ -56,14 +54,14 @@ namespace CobolWow.Game.Sessions
       {
          try
          {
-            Logger.Print(LogType.Network, "User Disconnected");
+            Logger.Log(LogType.Network, "User Disconnected");
 
             connectionSocket.Close();
             CobolWow.LoginServer.FreeConnectionID(connectionID);
          }
          catch (Exception socketException)
          {
-            Logger.Print(LogType.Error, socketException.ToString());
+            Logger.Log(LogType.Error, socketException.ToString());
          }
       }
 

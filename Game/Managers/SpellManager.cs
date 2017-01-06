@@ -18,26 +18,24 @@ namespace CobolWow.Game.Managers
    class SpellManager
    {
       public Dictionary<Character, SpellCollection> SpellCollections = new Dictionary<Character, SpellCollection>();
-      private static Log Logger = new Log();
-
       public static void Boot()
       {
          WorldDataRouter.AddHandler<PCCastSpell>(WorldOpcodes.CMSG_CAST_SPELL, OnCastSpell);
          WorldDataRouter.AddHandler<PCCancelSpell>(WorldOpcodes.CMSG_CANCEL_CAST, OnCancelSpell);
 
-         Logger.Print(LogType.Information, "SpellManager Initialized.");
+         Logger.Log(LogType.Information, "SpellManager Initialized.");
       }
 
       public static void SendInitialSpells(WorldSession session)
       {
-         Logger.Print(LogType.Debug, "SpellManager SendInitialSpells.");
+         Logger.Log(LogType.Debug, "SpellManager SendInitialSpells.");
          //TODO Fix spellCollection DBC
          session.SendPacket(new PSInitialSpells(session.Entity.SpellCollection));
       }
 
       private static void OnCastSpell(WorldSession session, PCCastSpell packet)
       {
-         Logger.Print(LogType.Debug, "SpellManager OnCastSpell.");
+         Logger.Log(LogType.Debug, "SpellManager OnCastSpell.");
 
          PrepareSpell(session, packet);
          ObjectEntity target = (session.Entity.Target != null) ? session.Entity.Target : session.Entity;
@@ -94,12 +92,12 @@ namespace CobolWow.Game.Managers
 
       private static void OnCancelSpell(WorldSession session, PCCancelSpell packet)
       {
-         Logger.Print(LogType.Debug, "SpellManager OnCancelSpell - Todo.");
+         Logger.Log(LogType.Debug, "SpellManager OnCancelSpell - Todo.");
       }
 
       public static void OnLearnSpell(WorldSession session, int spellID)
       {
-         Logger.Print(LogType.Debug, "SpellManager OnLearnSpell");
+         Logger.Log(LogType.Debug, "SpellManager OnLearnSpell");
          session.Entity.SpellCollection.AddSpell(spellID);
       }
    }

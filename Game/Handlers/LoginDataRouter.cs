@@ -13,7 +13,6 @@ namespace CobolWow.Game.Handlers
    public class LoginDataRouter
    {
       private static Dictionary<LoginOpcodes, ProcessLoginPacketCallback> mCallbacks = new Dictionary<LoginOpcodes, ProcessLoginPacketCallback>();
-      private static Log Logger = new Log();
       public static void AddHandler(LoginOpcodes opcode, ProcessLoginPacketCallback handler)
       {
          mCallbacks.Add(opcode, handler);
@@ -36,7 +35,7 @@ namespace CobolWow.Game.Handlers
          }
          else
          {
-            Logger.Print(LogType.Warning, "Missing handler: " + opcode);
+            Logger.Log(LogType.Warning, "Missing handler: " + opcode);
          }
       }
    }

@@ -20,7 +20,6 @@ namespace CobolWow.Game.Managers
 
    public class ChatManager
    {
-      private static Log Logger = new Log();
       public static Dictionary<ChatMessageType, ProcessChatCallback> ChatHandlers = new Dictionary<ChatMessageType, ProcessChatCallback>();
 
       public static void Boot()
@@ -32,7 +31,7 @@ namespace CobolWow.Game.Managers
          ChatHandlers.Add(ChatMessageType.CHAT_MSG_EMOTE, OnSayYell);
          ChatHandlers.Add(ChatMessageType.CHAT_MSG_WHISPER, OnWhisper);
 
-         Logger.Print(LogType.Information, "ChatManager Initialized.");
+         Logger.Log(LogType.Information, "ChatManager Initialized.");
       }
 
       public static void AddChatCommand(String commandName, String commandDescription, ChatCommandDelegate method)

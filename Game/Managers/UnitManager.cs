@@ -12,13 +12,12 @@ namespace CobolWow.Game.Managers
 {
    public class UnitManager
    {
-      private static Log Logger = new Log();
       public static void Boot()
       {
          WorldDataRouter.AddHandler<PacketReader>(WorldOpcodes.CMSG_ATTACKSWING, OnAttackSwing);
          WorldDataRouter.AddHandler<PacketReader>(WorldOpcodes.CMSG_CREATURE_QUERY, OnCreatureQuery);
 
-         Logger.Print(LogType.Information, "UnitManager Initialized.");
+         Logger.Log(LogType.Information, "UnitManager Initialized.");
       }
 
       private static void OnCreatureQuery(WorldSession session, PacketReader handler)

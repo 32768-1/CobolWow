@@ -18,7 +18,6 @@ namespace CobolWow.Game.Managers
 {
    public class ChatChannelManager
    {
-      private static Log Logger = new Log();
       public static void Boot()
       {
          WorldDataRouter.AddHandler<PCChannel>(WorldOpcodes.CMSG_JOIN_CHANNEL, OnJoinChannel);
@@ -26,7 +25,7 @@ namespace CobolWow.Game.Managers
          WorldDataRouter.AddHandler<PCChannel>(WorldOpcodes.CMSG_CHANNEL_LIST, OnListChannel);
          ChatManager.ChatHandlers.Add(ChatMessageType.CHAT_MSG_CHANNEL, OnChannelMessage);
 
-         Logger.Print(LogType.Information, "ChatChannelManager Initialized.");
+         Logger.Log(LogType.Information, "ChatChannelManager Initialized.");
       }
 
       private static void OnListChannel(WorldSession session, PCChannel packet)

@@ -14,7 +14,6 @@ namespace CobolWow.Game.Managers
 {
    public class MovementManager
    {
-      private static Log Logger = new Log();
       private static readonly List<WorldOpcodes> MovementOpcodes = new List<WorldOpcodes>()
         {
             WorldOpcodes.MSG_MOVE_HEARTBEAT,
@@ -50,7 +49,7 @@ namespace CobolWow.Game.Managers
          WorldDataRouter.AddHandler(WorldOpcodes.CMSG_MOVE_TIME_SKIPPED, OnMoveTimeSkipped);
          WorldDataRouter.AddHandler(WorldOpcodes.MSG_MOVE_WORLDPORT_ACK, OnWorldPort);
 
-         Logger.Print(LogType.Information, "MovementManager Initialized.");
+         Logger.Log(LogType.Information, "MovementManager Initialized.");
       }
 
       private static void OnWorldPort(WorldSession session, byte[] data)
@@ -63,7 +62,7 @@ namespace CobolWow.Game.Managers
 
       private static void OnMoveTimeSkipped(WorldSession session, byte[] packet)
       {
-         Logger.Print(LogType.Warning, "MovementManager MoveTimeSkipped.");
+         Logger.Log(LogType.Warning, "MovementManager MoveTimeSkipped.");
          using (PacketReader reader = new PacketReader(packet))
          {
             PSUpdateObject.ReadPackedGuid(reader);

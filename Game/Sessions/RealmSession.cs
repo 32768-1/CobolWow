@@ -16,7 +16,6 @@ namespace CobolWow.Game.Sessions
       public SRP6 Srp6;
       public String accountName { get; set; }
       public byte[] SessionKey;
-      private Log Logger = new Log();
       public LoginSession(int _connectionID, Socket _connectionSocket) : base(_connectionID, _connectionSocket) { }
 
       public override void Disconnect(object _obj = null)
@@ -45,7 +44,7 @@ namespace CobolWow.Game.Sessions
             writer.Write((ushort)data.Length);
             writer.Write(data);
 
-            Logger.Print(LogType.Database, connectionID + "Server -> Client [" + (LoginOpcodes)opcode + "] [0x" + opcode.ToString("X") + "]");
+            Logger.Log(LogType.Database, connectionID + "Server -> Client [" + (LoginOpcodes)opcode + "] [0x" + opcode.ToString("X") + "]");
 
             SendData(ms.ToArray());
          }
@@ -54,7 +53,7 @@ namespace CobolWow.Game.Sessions
       public override void OnPacket(byte[] data)
       {
          short opcode = BitConverter.ToInt16(data, 0);
-         Logger.Print(LogType.Network, ConnectionRemoteIP + " Data Recived - OpCode:" + opcode.ToString("X2") + " " + ((LoginOpcodes)opcode));
+         Logger.Log(LogType.Network, ConnectionRemoteIP + " Data Recived - OpCode:" + opcode.ToString("X2") + " " + ((LoginOpcodes)opcode));
 
          LoginOpcodes code = (LoginOpcodes)opcode;
 

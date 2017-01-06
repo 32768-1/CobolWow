@@ -8,13 +8,12 @@ namespace CobolWow.Tools.Config
    {
       private static IConfigSource ConfigSource = new IniConfigSource("CobolWoWConf.ini");
       private const String FILEPATH = "./CobolWoWConf.ini";
-      private static Log Logger = new Log();
 
       public static bool Boot()
       {
          if (!File.Exists(FILEPATH))
          {
-            Logger.Print(LogType.Warning, "INI file not found!");
+            Logger.Log(LogType.Warning, "INI file not found!");
             return false;
          }
 

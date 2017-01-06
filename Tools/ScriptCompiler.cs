@@ -19,7 +19,6 @@ namespace CobolWow.Tools
    public class ScriptCompiler
    {
       public VanillaPlugin Plugin { get { return instance; } }
-      private Log Logger = new Log();
       private Type type;
       private VanillaPlugin instance;
 
@@ -56,11 +55,11 @@ namespace CobolWow.Tools
                error += "\n" + e;
             }
 
-            Logger.Print(LogType.Error, error);
+            Logger.Log(LogType.Error, error);
             return false;
          }
          //Successful Compile
-         Logger.Print(LogType.Debug, "Script Loaded: " + Name);
+         Logger.Log(LogType.Debug, "Script Loaded: " + Name);
 
          type = results.CompiledAssembly.GetTypes()[0];
 
@@ -73,14 +72,14 @@ namespace CobolWow.Tools
             }
             else
             {
-               Logger.Print(LogType.Error, "Warning! " + Name + " isn't VanillaPlugin");
+               Logger.Log(LogType.Error, "Warning! " + Name + " isn't VanillaPlugin");
                return false;
             }
 
          }
          catch (Exception)
          {
-            Logger.Print(LogType.Error, "Error instantiating " + Name);
+            Logger.Log(LogType.Error, "Error instantiating " + Name);
             return false;
          }
 

@@ -10,7 +10,6 @@ namespace CobolWow.Tools.Chat
 {
    public class ChatCommandParser
    {
-      private static Log Logger = new Log();
       private static readonly List<ChatCommandNode> ChatCommandNodes = new List<ChatCommandNode>();
 
       //TODO Cleanup parser and allow ignoring case.
@@ -32,7 +31,7 @@ namespace CobolWow.Tools.Chat
             }
          }
 
-         Logger.Print(LogType.Information, "ChatCommandParser Initialized.");
+         Logger.Log(LogType.Information, "ChatCommandParser Initialized.");
       }
 
       public static void AddNode(ChatCommandNode node)
@@ -110,13 +109,13 @@ namespace CobolWow.Tools.Chat
                try
                {
                   commandAttribute.Method.Invoke(null, commandArguments);
-                  Logger.Print(LogType.Debug, "Player " + sender.Character.Name + " used command " + commandNode.Name + " " + commandAttribute.Name);
+                  Logger.Log(LogType.Debug, "Player " + sender.Character.Name + " used command " + commandNode.Name + " " + commandAttribute.Name);
                   return true;
                }
                catch (Exception e)
                {
-                  Logger.Print(LogType.Error, "Command Errored");
-                  Logger.Print(LogType.Error, e.StackTrace);
+                  Logger.Log(LogType.Error, "Command Errored");
+                  Logger.Log(LogType.Error, e.StackTrace);
                   sender.SendMessage("** " + commandNode.Name + " commands **");
                   sendCommandMessage(sender, commandAttribute);
                   return false;
@@ -129,13 +128,13 @@ namespace CobolWow.Tools.Chat
                try
                {
                   commandNode.Method.Invoke(null, commandArguments);
-                  Logger.Print(LogType.Debug, "Player " + sender.Character.Name + " used command " + commandNode.Name + " Default");
+                  Logger.Log(LogType.Debug, "Player " + sender.Character.Name + " used command " + commandNode.Name + " Default");
                   return true;
                }
                catch (Exception)
                {
-                  Logger.Print(LogType.Error, "Error using command: " + commandNode.Name);
-                  Logger.Print(LogType.Error, "Make sure the method passed in AddChatCommand is static!");
+                  Logger.Log(LogType.Error, "Error using command: " + commandNode.Name);
+                  Logger.Log(LogType.Error, "Make sure the method passed in AddChatCommand is static!");
                   return false;
                }
             }

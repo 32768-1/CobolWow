@@ -8,7 +8,6 @@ namespace CobolWow.Tools.DBC
 {
    public class CachedDBC<T> where T : new()
    {
-      private Log Logger = new Log();
       private List<T> _cachedList;
 
       public async Task<bool> InitCache()
@@ -35,7 +34,7 @@ namespace CobolWow.Tools.DBC
          {
             Stopwatch StopWatch = new Stopwatch();
             _cachedList = DBC.SQLite.Table<T>().ToList();
-            Logger.Print(LogType.Database, "[Cached] Table: " + typeof(T).Name + " Loaded: " + List.Count + " items. Took: " + StopWatch.ElapsedMilliseconds + "ms ");
+            Logger.Log(LogType.Database, "[Cached] Table: " + typeof(T).Name + " Loaded: " + List.Count + " items. Took: " + StopWatch.ElapsedMilliseconds + "ms ");
             return true;
          });
          return false;

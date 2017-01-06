@@ -13,7 +13,6 @@ namespace CobolWow.Game.Managers
 {
    public class EntityManager
    {
-      private static Log Logger = new Log();
       public static void Boot()
       {
          Thread thread = new Thread(Update);

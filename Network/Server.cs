@@ -10,8 +10,6 @@ namespace CobolWow.Network
 {
    public class CobolTCPListener
    {
-      private Log Logger = new Log();
-
       private Socket socketHandler;
       private int socketPort;
       private int maxConnections;
@@ -30,7 +28,7 @@ namespace CobolWow.Network
          socketPort = _portNumber;
          socketHandler = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-         Logger.Print(LogType.Network, "Starting up game server...");
+         Logger.Log(LogType.Network, "Starting up game server...");
 
          try
          {
@@ -38,14 +36,14 @@ namespace CobolWow.Network
             socketHandler.Listen(25);
             socketHandler.BeginAccept(ConnectionRequest, socketHandler);
 
-            Logger.Print(LogType.Network, "Server Port: " + socketPort);
-            Logger.Print(LogType.Network, "Max connections: " + maxConnections);
+            Logger.Log(LogType.Network, "Server Port: " + socketPort);
+            Logger.Log(LogType.Network, "Max connections: " + maxConnections);
 
             return true;
          }
          catch (Exception e)
          {
-            Logger.Print(LogType.Error, e.ToString());
+            Logger.Log(LogType.Error, e.ToString());
 
             return false;
          }
@@ -57,7 +55,7 @@ namespace CobolWow.Network
 
          if (ActiveConnections.Count == maxConnections)
          {
-            Logger.Print(LogType.Network, "User Disconnected - Server Full");
+            Logger.Log(LogType.Network, "User Disconnected - Server Full");
 
             connectionSocket.Close();
             socketHandler.BeginAccept(ConnectionRequest, socketHandler);

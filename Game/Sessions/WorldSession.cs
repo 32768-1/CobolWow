@@ -19,8 +19,6 @@ namespace CobolWow.Net
 {
    public class WorldSession : Session
    {
-      private Log Logger = new Log();
-
       public UInt32 seed;
       public VanillaCrypt crypt;
       public Account Account;
@@ -70,7 +68,7 @@ namespace CobolWow.Net
             writer.Write(header);
             writer.Write(data);
 
-            Logger.Print(LogType.Network, "Server -> Client [" + (WorldOpcodes)opcode + "] [0x" + opcode.ToString("X") + "]");
+            Logger.Log(LogType.Network, "Server -> Client [" + (WorldOpcodes)opcode + "] [0x" + opcode.ToString("X") + "]");
 
             //TODO CRASH
             //if (opcode == (int)WorldOpcodes.SMSG_UPDATE_OBJECT)
@@ -151,7 +149,7 @@ namespace CobolWow.Net
 
             byte[] packetDate = new byte[length];
             Array.Copy(data, index + 6, packetDate, 0, length - 4);
-            Logger.Print(LogType.Client, "Client -> Server [" + worldOpcode + "] Packet Length: " + length);
+            Logger.Log(LogType.Client, "Client -> Server [" + worldOpcode + "] Packet Length: " + length);
 
             WorldDataRouter.CallHandler(this, worldOpcode, packetDate);
 

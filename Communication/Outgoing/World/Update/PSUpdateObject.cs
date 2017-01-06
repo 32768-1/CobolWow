@@ -14,7 +14,6 @@ namespace CobolWow.Communication.Outgoing.World.Update
 {
    public class PSUpdateObject : ServerPacket
    {
-      static Log Logger = new Log();
       public PSUpdateObject(List<byte[]> blocks, int hasTansport = 0) : base(WorldOpcodes.SMSG_UPDATE_OBJECT)
       {
          Write((uint)blocks.Count());
@@ -69,7 +68,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
       public static PSUpdateObject BuildCreateUpdateBlock(ObjectEntity entity)
       {
-         Logger.Print("BuildCreateUpdateBlock");
+         Logger.Log("BuildCreateUpdateBlock");
          using (MemoryStream ms = new MemoryStream())
          using (BinaryWriter writer = new BinaryWriter(ms))
          {
@@ -163,7 +162,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
       public static PSUpdateObject CreateOwnCharacterUpdate(Character character, out PlayerEntity entity)
       {
-         Logger.Print("CreateOwnCharacterUpdate");
+         Logger.Log("CreateOwnCharacterUpdate");
          using (MemoryStream ms = new MemoryStream())
          using (BinaryWriter writer = new BinaryWriter(ms))
          {
@@ -211,7 +210,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
       public static PSUpdateObject CreateCharacterUpdate(Character character)
       {
-         Logger.Print("CreateCharacterUpdate");
+         Logger.Log("CreateCharacterUpdate");
          using (MemoryStream ms = new MemoryStream())
          using (BinaryWriter writer = new BinaryWriter(ms))
          {
@@ -285,7 +284,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
       public static PSUpdateObject CreateGameObject(float x, float y, float z, GameObject gameObject, GameObjectTemplate template)
       {
-         Logger.Print("CreateGameObject");
+         Logger.Log("CreateGameObject");
          using (MemoryStream ms = new MemoryStream())
          using (BinaryWriter writer = new BinaryWriter(ms))
          {
@@ -352,7 +351,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
       public static PSUpdateObject UpdateValues(ObjectEntity entity)
       {
-         Logger.Print("UpdateValues");
+         Logger.Log("UpdateValues");
          using (MemoryStream ms = new MemoryStream())
          using (BinaryWriter writer = new BinaryWriter(ms))
          {
@@ -400,7 +399,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
       public static PSUpdateObject CreateUnitUpdate(PlayerEntity character)
       {
-         Logger.Print("CreateUnitUpdate");
+         Logger.Log("CreateUnitUpdate");
          UnitEntity entity = new UnitEntity();
 
          using (MemoryStream ms = new MemoryStream())
@@ -446,7 +445,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
             var data = ms.ToArray();
             Console.WriteLine(" ");
-            Logger.Print(LogType.Debug, BitConverter.ToString(data));
+            Logger.Log(LogType.Debug, BitConverter.ToString(data));
             Console.WriteLine(" ");
             return new PSUpdateObject(new List<byte[]> { data });
          }
@@ -454,7 +453,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
       public static PSUpdateObject CreateUnitUpdate(UnitEntity entity)
       {
-         Logger.Print("CreateUnitUpdate");
+         Logger.Log("CreateUnitUpdate");
          using (MemoryStream ms = new MemoryStream())
          using (BinaryWriter writer = new BinaryWriter(ms))
          {
@@ -510,7 +509,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
       public static PSUpdateObject CreateOutOfRangeUpdate(List<ObjectEntity> entitys)
       {
-         Logger.Print("CreateOutOfRangeUpdate");
+         Logger.Log("CreateOutOfRangeUpdate");
          using (MemoryStream ms = new MemoryStream())
          using (BinaryWriter writer = new BinaryWriter(ms))
          {

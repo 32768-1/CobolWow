@@ -16,15 +16,13 @@ namespace CobolWow.Game.Managers
 {
    public class MailManager
    {
-      private static Log Logger = new Log();
-
       public static void Boot()
       {
          WorldDataRouter.AddHandler<PCGetMailList>(WorldOpcodes.CMSG_GET_MAIL_LIST, OnGetMailList);
          WorldDataRouter.AddHandler<PCSendMail>(WorldOpcodes.CMSG_SEND_MAIL, OnSendMail);
          WorldDataRouter.AddHandler<PCSendMail>(WorldOpcodes.CMSG_MAIL_RETURN_TO_SENDER, OnReturnMailToSender);
 
-         Logger.Print(LogType.Information, "MailManager Initialized.");
+         Logger.Log(LogType.Information, "MailManager Initialized.");
       }
 
       private static void OnReturnMailToSender(WorldSession session, PCSendMail handler)

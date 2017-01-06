@@ -15,7 +15,6 @@ namespace CobolWow.Game.Managers
    public class LogoutManager
    {
       public const int LOGOUT_TIME = 1; //Todo
-      private static Log Logger = new Log();
       private static Dictionary<WorldSession, DateTime> LogoutQueue = new Dictionary<WorldSession, DateTime>();
 
       public static void Boot()
@@ -23,7 +22,7 @@ namespace CobolWow.Game.Managers
          Thread thread = new Thread(Run);
          thread.Start();
 
-         Logger.Print(LogType.Information, "LogoutManager Initialized.");
+         Logger.Log(LogType.Information, "LogoutManager Initialized.");
 
          WorldDataRouter.AddHandler<PacketReader>(WorldOpcodes.CMSG_LOGOUT_REQUEST, OnLogout);
          WorldDataRouter.AddHandler<PacketReader>(WorldOpcodes.CMSG_LOGOUT_CANCEL, OnCancel);

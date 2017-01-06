@@ -13,7 +13,6 @@ namespace CobolWow.Tools
    public class DBConverter
    {
       public static string DBC_LOCATION = ConfigManager.DBC_LOCATION;
-      private static Log Logger = new Log();
       public static SQLiteConnection SQLite;
 
       public static void Convert()
@@ -37,12 +36,12 @@ namespace CobolWow.Tools
       public static void GenerateTable<T>(Func<string[], T> Converter, string url, string database)
       {
          SQLite = new SQLiteConnection(ConfigManager.DBDBC);
-         Logger.Print(LogType.Debug, "Dropping table " + typeof(T).Name);
+         Logger.Log(LogType.Debug, "Dropping table " + typeof(T).Name);
          SQLite.DropTable<T>();
 
          List<T> ConvertedEntries = Convert<T>(Converter, url);
 
-         Logger.Print(LogType.Debug, "Creating table " + typeof(T).Name);
+         Logger.Log(LogType.Debug, "Creating table " + typeof(T).Name);
          SQLite.CreateTable<T>();
 
          float index = 0;
@@ -56,7 +55,7 @@ namespace CobolWow.Tools
                 SQLite.Insert(e);
                 index++;
              });
-         Logger.Print(LogType.Debug, "Added " + ConvertedEntries.Count + " entries");
+         Logger.Log(LogType.Debug, "Added " + ConvertedEntries.Count + " entries");
          SQLite.Close();
       }
 

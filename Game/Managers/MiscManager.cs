@@ -21,8 +21,6 @@ namespace CobolWow.Game.Managers
 {
    public class MiscManager
    {
-      private static Log Logger = new Log();
-
       public static void Boot()
       {
          WorldDataRouter.AddHandler<PCNameQuery>(WorldOpcodes.CMSG_NAME_QUERY, OnNameQueryPacket);
@@ -34,7 +32,7 @@ namespace CobolWow.Game.Managers
          WorldDataRouter.AddHandler<PCSetSelection>(WorldOpcodes.CMSG_SET_SELECTION, OnSetSelectionPacket);
          WorldDataRouter.AddHandler<PCGameObjectQuery>(WorldOpcodes.CMSG_GAMEOBJECT_QUERY, OnGameObjectQuery);
 
-         Logger.Print(LogType.Information, "MiscManager Initialized.");
+         Logger.Log(LogType.Information, "MiscManager Initialized.");
       }
 
       public static void OnNameQueryPacket(WorldSession session, PCNameQuery packet)
@@ -47,7 +45,7 @@ namespace CobolWow.Game.Managers
 
       public static void OnGameObjectQuery(WorldSession session, PCGameObjectQuery packet)
       {
-         Logger.Print(LogType.Debug, "MiscManager OnGameObjectQuery.");
+         Logger.Log(LogType.Debug, "MiscManager OnGameObjectQuery.");
          GameObjectTemplate template = DBGameObject.GameObjectTemplates.Find(g => g.Entry == packet.EntryID);
          //session.sendPacket(new PSGameObjectQueryResponse(template));
          //session.sendMessage("Requested Info: " + template.Name + " " + (GameobjectTypes)template.Type);
@@ -60,7 +58,7 @@ namespace CobolWow.Game.Managers
 
       public static void OnTextEmotePacket(WorldSession session, PCTextEmote packet)
       {
-         Logger.Print(LogType.Debug, "MiscManager OnTextEmotePacket.");
+         Logger.Log(LogType.Debug, "MiscManager OnTextEmotePacket.");
          //TODO Get the targetname from the packet.GUID
          String targetName = session.Entity.Target != null ? session.Entity.Target.Name : null;
 
@@ -84,13 +82,13 @@ namespace CobolWow.Game.Managers
 
       public static void OnZoneUpdatePacket(WorldSession session, PCZoneUpdate packet)
       {
-         Logger.Print(LogType.Debug, "MiscManager OnZoneUpdatePacket.");
+         Logger.Log(LogType.Debug, "MiscManager OnZoneUpdatePacket.");
          session.SendMessage("[ZoneUpdate] ID:" + packet.ZoneID + " " + DBC.AreaTables.Find(a => a.ID == packet.ZoneID).Name);
       }
 
       public static void OnAreaTriggerPacket(WorldSession session, PCAreaTrigger packet)
       {
-         Logger.Print(LogType.Debug, "MiscManager OnAreaTriggerPacket.");
+         Logger.Log(LogType.Debug, "MiscManager OnAreaTriggerPacket.");
 
          AreaTriggerTeleport areaTrigger = DBAreaTriggers.AreaTriggerTeleport.Find(at => at.ID == packet.TriggerID);
 
@@ -122,7 +120,7 @@ namespace CobolWow.Game.Managers
 
       public static void OnSetSelectionPacket(WorldSession session, PCSetSelection packet)
       {
-         Logger.Print(LogType.Debug, "MiscManager OnSetSelectionPacket.");
+         Logger.Log(LogType.Debug, "MiscManager OnSetSelectionPacket.");
 
          UnitEntity target = null;
 

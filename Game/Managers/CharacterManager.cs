@@ -17,14 +17,13 @@ namespace CobolWow.Game.Managers
 {
    public class CharacterManager
    {
-      private static Log Logger = new Log();
       public static void Boot()
       {
          WorldDataRouter.AddHandler(WorldOpcodes.CMSG_CHAR_ENUM, OnCharEnum);
          WorldDataRouter.AddHandler<PCCharCreate>(WorldOpcodes.CMSG_CHAR_CREATE, OnCharCreate);
          WorldDataRouter.AddHandler<PCCharDelete>(WorldOpcodes.CMSG_CHAR_DELETE, OnCharDelete);
 
-         Logger.Print(LogType.Information, "CharacterManager Initialized.");
+         Logger.Log(LogType.Information, "CharacterManager Initialized.");
       }
 
       private static void OnCharDelete(WorldSession session, PCCharDelete packet)

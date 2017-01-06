@@ -11,7 +11,6 @@ namespace CobolWow.Game.Managers
    {
       private static List<ScriptCompiler> scripts = new List<ScriptCompiler>();
       private static FileSystemWatcher watcher;
-      private static Log Logger = new Log();
 
       public static void Boot()
       {
@@ -34,7 +33,7 @@ namespace CobolWow.Game.Managers
       {
          if (!Directory.Exists(ScriptLocation))
          {
-            Logger.Print(LogType.Script, "Script location (" + ScriptLocation + ") dosn't exist. Creating...");
+            Logger.Log(LogType.Script, "Script location (" + ScriptLocation + ") dosn't exist. Creating...");
 
             Directory.CreateDirectory(ScriptLocation);
          }
@@ -90,7 +89,7 @@ namespace CobolWow.Game.Managers
 
             script.Plugin.Unload();
 
-            Logger.Print(LogType.Script, "Script Unloaded: " + scriptName);
+            Logger.Log(LogType.Script, "Script Unloaded: " + scriptName);
          }
       }
 

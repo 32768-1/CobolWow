@@ -10,7 +10,6 @@ namespace CobolWow.Game.Managers
 {
    public class PlayerManager
    {
-      private static Log Logger = new Log();
       public static HashSet<PlayerEntity> Players = new HashSet<PlayerEntity>();
 
       public static void Boot()
@@ -21,7 +20,7 @@ namespace CobolWow.Game.Managers
          Thread _thread = new Thread(Update);
          _thread.Start();
 
-         Logger.Print(LogType.Information, "PlayerManager Initialized.");
+         Logger.Log(LogType.Information, "PlayerManager Initialized.");
       }
 
       private static void OnPlayerDespawn(PlayerEntity player)
