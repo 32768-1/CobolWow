@@ -10,7 +10,7 @@ namespace CobolWow.Communication.Outgoing.Auth
          Write((float)1); //X
          Write((float)1); //Y
          Write((float)1); //Z
-         Write((uint)1); //MAPID
+         Write((uint)1); //map
          Write((short)1); //AREAID
       }
    }

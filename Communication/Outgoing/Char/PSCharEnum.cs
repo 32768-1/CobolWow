@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 
 using CobolWow.Tools;
-using CobolWow.Tools.DBC;
 using CobolWow.Network.Packets;
-using CobolWow.Tools.DBC.Tables;
-using CobolWow.Tools.Database.Tables;
+using CobolWow.Database20.Items;
+using CobolWow.Database20.Tables;
+using System;
 
 namespace CobolWow.Communication.Outgoing.Char
 {
@@ -17,24 +17,28 @@ namespace CobolWow.Communication.Outgoing.Char
 
          foreach (Character character in characters)
          {
-            Write((ulong)character.GUID);
-            WriteCString(character.Name);
-            Write((byte)character.Race);
-            Write((byte)character.Class);
+            Write((ulong)character.guid);
+            WriteCString(character.name);
+            Write((byte)character.race);
+            Write((byte)character.@class);
 
-            Write((byte)character.Gender);
-            Write((byte)character.Skin);
-            Write((byte)character.Face);
-            Write((byte)character.HairStyle);
-            Write((byte)character.HairColor);
-            Write((byte)character.Accessory);
-            Write((byte)character.Level);
+            Write((byte)character.gender);
+
+            Byte[] playerBytes = BitConverter.GetBytes(character.playerints);
+            Byte[] playerBytes2 = BitConverter.GetBytes(character.playerints2);
+
+            Write((byte)playerBytes[0]);
+            Write((byte)playerBytes[1]);
+            Write((byte)playerBytes[2]);
+            Write((byte)playerBytes[3]);
+            Write((byte)playerBytes2[0]);
+            Write((byte)character.level);
 
             Write((int)0); // Zone ID
-            Write(character.MapID);
-            Write(character.X);
-            Write(character.Y);
-            Write(character.Z);
+            Write(character.map);
+            Write(character.position_x);
+            Write(character.position_y);
+            Write(character.position_z);
 
             Write((int)0); // Guild ID
             Write((int)0); // Character Flags
@@ -45,7 +49,7 @@ namespace CobolWow.Communication.Outgoing.Char
             Write(0); // Pet Level
             Write(0); // Pet FamilyID
 
-            ItemTemplateEntry[] Equipment = DBC.ItemTemplates.GenerateInventoryByIDs(Helper.CSVStringToIntArray(character.Equipment));
+            ItemTemplateEntry[] Equipment =  ItemManager.GenerateInventoryByIDs(Helper.CSVStringToIntArray(character.equipmentCache));
 
             for (int itemSlot = 0; itemSlot < 19; itemSlot++)
             {

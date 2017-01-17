@@ -58,7 +58,7 @@ namespace CobolWow.Game.Managers
          if (packet.Message[0].ToString() == ConfigManager.COMMAND_KEY)
             ChatCommandParser.ExecuteCommand(session, packet.Message);
          else
-            WorldServer.TransmitToAll(new PSMessageChat(packet.Type, ChatMessageLanguage.LANG_UNIVERSAL, (ulong)session.Character.GUID, packet.Message));
+            WorldServer.TransmitToAll(new PSMessageChat(packet.Type, ChatMessageLanguage.LANG_UNIVERSAL, (ulong)session.Character.guid, packet.Message));
       }
 
       public static void OnWhisper(WorldSession session, PCMessageChat packet)
@@ -67,8 +67,8 @@ namespace CobolWow.Game.Managers
 
          if (remoteSession != null)
          {
-            session.SendPacket(new PSMessageChat(ChatMessageType.CHAT_MSG_WHISPER_INFORM, ChatMessageLanguage.LANG_UNIVERSAL, (ulong)remoteSession.Character.GUID, packet.Message));
-            remoteSession.SendPacket(new PSMessageChat(ChatMessageType.CHAT_MSG_WHISPER, ChatMessageLanguage.LANG_UNIVERSAL, (ulong)session.Character.GUID, packet.Message));
+            session.SendPacket(new PSMessageChat(ChatMessageType.CHAT_MSG_WHISPER_INFORM, ChatMessageLanguage.LANG_UNIVERSAL, (ulong)remoteSession.Character.guid, packet.Message));
+            remoteSession.SendPacket(new PSMessageChat(ChatMessageType.CHAT_MSG_WHISPER, ChatMessageLanguage.LANG_UNIVERSAL, (ulong)session.Character.guid, packet.Message));
          }
          else
          {
@@ -83,7 +83,7 @@ namespace CobolWow.Game.Managers
 
       public static WorldSession GetSessionByCharacterName(string characterName)
       {
-         return WorldServer.Sessions.Find(character => character.Character.Name.ToLower() == characterName.ToLower());
+         return WorldServer.Sessions.Find(character => character.Character.name.ToLower() == characterName.ToLower());
       }
    }
 }

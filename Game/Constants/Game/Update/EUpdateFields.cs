@@ -251,7 +251,7 @@
       OBJECT_FIELD_CREATED_BY = EObjectFields.OBJECT_END + 0x00,
       GAMEOBJECT_DISPLAYID = EObjectFields.OBJECT_END + 0x02,
       GAMEOBJECT_FLAGS = EObjectFields.OBJECT_END + 0x03,
-      GAMEOBJECT_ROTATION = EObjectFields.OBJECT_END + 0x04,
+      GAMEOBJECT_orientation = EObjectFields.OBJECT_END + 0x04,
       GAMEOBJECT_STATE = EObjectFields.OBJECT_END + 0x08,
       GAMEOBJECT_POS_X = EObjectFields.OBJECT_END + 0x09,
       GAMEOBJECT_POS_Y = EObjectFields.OBJECT_END + 0x0A,

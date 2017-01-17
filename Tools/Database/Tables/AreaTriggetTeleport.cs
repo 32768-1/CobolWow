@@ -1,22 +1,17 @@
-﻿using SQLite;
-
-namespace CobolWow.Tools.Database.Tables
+﻿namespace CobolWow.Tools.Database.Tables
 {
    public class AreaTriggerTeleport
    {
-      [PrimaryKey, AutoIncrement]
-      public int ID { get; set; }
-
-      public string Name { get; set; }
-      public int RequiredLevel { get; set; }
-      public int RequiredItem { get; set; }
-      public int RequiredItem2 { get; set; }
-      public int RequiredQuestDone { get; set; }
-      public int RequiredFailedText { get; set; }
-      public int TargetMap { get; set; }
-      public float TargetX { get; set; }
-      public float TargetY { get; set; }
-      public float TargetZ { get; set; }
-      public float TargetR { get; set; }
+      public int id { get; set; }
+      public string name { get; set; }
+      public byte required_level { get; set; }
+      public int required_item { get; set; }
+      public int required_item2 { get; set; }
+      public long required_quest_done { get; set; }
+      public int target_map { get; set; }
+      public float target_position_x { get; set; }
+      public float target_position_y { get; set; }
+      public float target_position_z { get; set; }
+      public float target_orientation { get; set; }
    }
 }

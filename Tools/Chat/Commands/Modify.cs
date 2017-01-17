@@ -57,7 +57,7 @@ namespace CobolWow.Tools.Chat.Commands
                case "money":
                   int moneyToAdd = int.Parse(attributeValue) < 0x7fffffff ? int.Parse(attributeValue) : 0x7fffffff;
                   entity.SetUpdateField<Int32>((int)EUnitFields.PLAYER_FIELD_COINAGE, moneyToAdd);
-                  session.Character.Money = moneyToAdd;
+                  session.Character.money = moneyToAdd;
                   break;
                case "standstate":
                   entity.SetStandState((UnitStandStateType)int.Parse(attributeValue));

@@ -1,11 +1,11 @@
 ﻿using System;
 using CobolWow.Tools;
 using CobolWow.Network;
-using CobolWow.Tools.DBC;
 using CobolWow.Tools.Chat;
 using CobolWow.Tools.Config;
 using CobolWow.Game.Managers;
-using CobolWow.Tools.Database;
+using CobolWow.Database20;
+using CobolWow.DBC;
 
 namespace CobolWow
 {
@@ -15,23 +15,30 @@ namespace CobolWow
       public static GameObjectComponent GameObjectComponent { get; private set; }
       public static LoginServer LoginServer { get; private set; }
       public static WorldServer WorldServer { get; private set; }
+      public static DBCLibrary DBC { get; private set; }
 
       static void Main(string[] args)
       {
          Start();
          while (true) Console.ReadLine();
       }
+      
 
       private static async void Start()
-      {
+      { 
          Logger.Log("CobolWoW is warming up...");
          Logger.Log("Loading Database/DBC...");
 
          if(!ConfigManager.Boot())
             Logger.Log(LogType.Warning, "Configuration file not found, using default values...");
 
-         await DB.Boot();
-         await DBC.Boot();
+         DBC = new DBCLibrary();
+         await DataBase20.BootWorldDatabase();
+         await DataBase20.BootCharacterDatabase();
+         await DataBase20.BootRealmDatabase();
+
+         //await DB.Boot();
+         //await DBC.Boot();
          Logger.Log("Initializing Managers...");
 
          AuthManager.Boot();
@@ -41,7 +48,7 @@ namespace CobolWow
          ChatCommandParser.Boot();
          MovementManager.Boot();
          MiscManager.Boot();
-         SpellManager.Boot();         
+         //SpellManager.Boot();         
          EntityManager.Boot();       
          CharacterManager.Boot();        
          PlayerManager.Boot();
@@ -52,7 +59,7 @@ namespace CobolWow
          //ScriptManager.Boot();
          //AIBrainManager.Boot();
 
-         new PlayerManager();
+         //new PlayerManager();
          UnitComponent = new UnitComponent();
          GameObjectComponent = new GameObjectComponent();
          new WorldManager();

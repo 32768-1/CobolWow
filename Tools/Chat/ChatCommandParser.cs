@@ -109,7 +109,7 @@ namespace CobolWow.Tools.Chat
                try
                {
                   commandAttribute.Method.Invoke(null, commandArguments);
-                  Logger.Log(LogType.Debug, "Player " + sender.Character.Name + " used command " + commandNode.Name + " " + commandAttribute.Name);
+                  Logger.Log(LogType.Debug, "Player " + sender.Character.name + " used command " + commandNode.Name + " " + commandAttribute.Name);
                   return true;
                }
                catch (Exception e)
@@ -128,7 +128,7 @@ namespace CobolWow.Tools.Chat
                try
                {
                   commandNode.Method.Invoke(null, commandArguments);
-                  Logger.Log(LogType.Debug, "Player " + sender.Character.Name + " used command " + commandNode.Name + " Default");
+                  Logger.Log(LogType.Debug, "Player " + sender.Character.name + " used command " + commandNode.Name + " Default");
                   return true;
                }
                catch (Exception)

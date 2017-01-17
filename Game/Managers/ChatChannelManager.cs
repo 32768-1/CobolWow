@@ -9,11 +9,11 @@ using CobolWow.Game.Handlers;
 using CobolWow.Network.Packets;
 using CobolWow.Game.Constants.Game;
 using CobolWow.Tools.Database.Tables;
-using CobolWow.Tools.Database.Helpers;
 using CobolWow.Game.Constants.Game.Chat.Channel;
 using CobolWow.Communication.Incoming.World.Chat;
 using CobolWow.Communication.Outgoing.World.Chat;
 using CobolWow.Communication.Incoming.World.Chat.Channel;
+using CobolWow.Database20.Tables;
 
 namespace CobolWow.Game.Managers
 {
@@ -36,21 +36,21 @@ namespace CobolWow.Game.Managers
 
       private static void OnLeaveChannel(WorldSession session, PCChannel packet)
       {
-         DBChannels.LeaveChannel(session.Character.GUID, packet.ChannelName);
+         //DBChannels.LeaveChannel(session.Character.guid, packet.ChannelName);
       }
 
       private static void OnJoinChannel(WorldSession session, PCChannel packet)
       {
-         DBChannels.JoinChannel(session.Character.GUID, packet.ChannelName);
-         session.SendPacket(new PSChannelNotify(ChatChannelNotify.CHAT_YOU_JOINED_NOTICE, (ulong)session.Character.GUID, packet.ChannelName));
+         //DBChannels.JoinChannel(session.Character.guid, packet.ChannelName);
+         //session.SendPacket(new PSChannelNotify(ChatChannelNotify.CHAT_YOU_JOINED_NOTICE, (ulong)session.Character.guid, packet.ChannelName));
       }
 
       private static void OnChannelMessage(WorldSession session, PCMessageChat packet)
       {
-         List<Character> inChannel = DBChannels.GetCharacters(packet.ChannelName);
+         //List<Character> inChannel = DBChannels.GetCharacters(packet.ChannelName);
          //inChannel.ForEach(c => WorldServer.Sessions.Find(s => s.Character == c).sendPacket(new PSMessageChat(ChatMessageType.CHAT_MSG_CHANNEL, ChatMessageLanguage.LANG_UNIVERSAL, (ulong)session.Character.GUID, packet.Message, packet.ChannelName)));;
 
-         ServerPacket outPacket = new PSMessageChat(ChatMessageType.CHAT_MSG_CHANNEL, ChatMessageLanguage.LANG_UNIVERSAL, (ulong)session.Character.GUID, packet.Message, packet.ChannelName);         
+         ServerPacket outPacket = new PSMessageChat(ChatMessageType.CHAT_MSG_CHANNEL, ChatMessageLanguage.LANG_UNIVERSAL, (ulong)session.Character.guid, packet.Message, packet.ChannelName);         
          Console.WriteLine(Helper.ByteArrayToHex(outPacket.Packet));
          WorldServer.TransmitToAll(outPacket);         
       }

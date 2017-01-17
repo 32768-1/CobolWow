@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-using CobolWow.Tools.DBC;
 using CobolWow.Game.Entitys;
-using CobolWow.Tools.DBC.Tables;
-using CobolWow.Tools.Database.Tables;
-using CobolWow.Tools.Database.Helpers;
 using CobolWow.Game.Constants.Game.World.Spell;
 using CobolWow.Communication.Outgoing.World.Spell;
+using CobolWow.Database20.Tables;
+using CobolWow.DBC.Structs;
 
 namespace CobolWow.Game.Spells
 {
@@ -40,7 +38,7 @@ namespace CobolWow.Game.Spells
       {
          if (Collection.ContainsKey(Spell.SpellID)) return;
          Collection.Add(Spell.SpellID, Spell);
-         DBSpells.AddSpell(Owner.Character, (int)Spell.SpellID);
+         //DBSpells.AddSpell(Owner.Character, (int)Spell.SpellID);
 
          Owner.Session.SendPacket(new PSLearnSpell((uint)Spell.SpellID));
       }
@@ -49,21 +47,22 @@ namespace CobolWow.Game.Spells
       {
          if (!Collection.ContainsKey(Spell.SpellID)) return;
          Collection.Remove(Spell.SpellID);
-         DBSpells.RemoveSpell(Owner.Character, (int)Spell.SpellID);
+         //DBSpells.RemoveSpell(Owner.Character, (int)Spell.SpellID);
 
          Owner.Session.SendPacket(new PSRemoveSpell((uint)Spell.SpellID));
       }
 
       private Spell CreateSpell(int spellID)
       {
-         SpellEntry spellEntry = DBC.Spells.GetSpellByID(spellID);
-         return new Spell((SpellID)spellID, spellEntry);
+         //SpellEntry spellEntry = DBC.Spells.GetSpellByID(spellID);
+         //return new Spell((SpellID)spellID, spellEntry);
+         throw new System.Exception("Not Implemented");
       }
 
       private List<Spell> GetDBSpells(Character character)
       {
          List<Spell> Spells = new List<Spell>();
-         DBSpells.GetCharacterSpells(character).ForEach(characterSpell => Spells.Add(CreateSpell(characterSpell.SpellID)));
+         //DBSpells.GetCharacterSpells(character).ForEach(characterSpell => Spells.Add(CreateSpell(characterSpell.SpellID)));
          return Spells;
       }
 

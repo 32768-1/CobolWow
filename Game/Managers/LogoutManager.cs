@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
 
@@ -9,6 +10,7 @@ using CobolWow.Game.Handlers;
 using CobolWow.Network.Packets;
 using CobolWow.Communication.Outgoing.Auth;
 using CobolWow.Communication.Outgoing.World.Logout;
+
 
 namespace CobolWow.Game.Managers
 {
@@ -47,7 +49,7 @@ namespace CobolWow.Game.Managers
       {
          while (true)
          {
-            foreach (var queuedLogout in LogoutQueue)
+            foreach (var queuedLogout in LogoutQueue.ToArray())
             {
                if (DateTime.Now.Subtract(queuedLogout.Value).Seconds >= LOGOUT_TIME)
                {                 

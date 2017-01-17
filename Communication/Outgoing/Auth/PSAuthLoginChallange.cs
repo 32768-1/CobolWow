@@ -8,27 +8,26 @@ namespace CobolWow.Communication.Outgoing.Auth
 {
    class PSAuthLoginChallange : ServerPacket
    {
-      public PSAuthLoginChallange(SRP6 Srp6) : base(LoginOpcodes.AUTH_LOGIN_CHALLENGE)
+      public PSAuthLoginChallange(Authenticator authenticator) : base(LoginOpcodes.AUTH_LOGIN_CHALLENGE)
       {
+         Write((byte)base.Opcode);
          Write((byte)0);
          Write((byte)0);
+         Write(authenticator.SRP6.B);
+         Write((byte)1);
+         Write(authenticator.SRP6.g[0]);
+         Write((byte)authenticator.SRP6.N.Length);
+         Write(authenticator.SRP6.N);
+         Write(authenticator.SRP6.salt);
+         Write(new byte[16]);
+         Write((byte)0);
+      }
 
-         if (Srp6 == null)
-         {
-            Write((byte)AccountStatus.UnknownAccount);
-            this.WriteNullByte(6);
-         }
-         else
-         {
-            Write((byte)AccountStatus.Ok);
-            Write(Srp6.B);
-            Write((byte)1);
-            Write(Srp6.g[0]);
-            Write((byte)Srp6.N.Length);
-            Write(Srp6.N);
-            Write(Srp6.salt);
-            this.WriteNullByte(17);
-         }
+      public PSAuthLoginChallange(AccountStatus accountStatus) : base(LoginOpcodes.AUTH_LOGIN_CHALLENGE)
+      {
+         Write((byte)base.Opcode);
+         this.WriteNull(1);
+         Write((byte)accountStatus);
       }
    }
 }

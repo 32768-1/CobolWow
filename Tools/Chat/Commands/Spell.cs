@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 using CobolWow.Net;
 using CobolWow.Game.Entitys;
-using CobolWow.Tools.DBC.Tables;
 using CobolWow.Network;
+using CobolWow.DBC.Structs;
 
 namespace CobolWow.Tools.Chat.Commands
 {
@@ -15,16 +15,18 @@ namespace CobolWow.Tools.Chat.Commands
       [ChatCommand("lookup", "Takes a spellName string and returns a spellID int.")]
       public static void Lookup(WorldSession session, string[] args)
       {
-         string spellName = args[0];
+         throw new System.Exception("Not Implemented");
+         //string spellName = args[0];
 
-         List<SpellEntry> matchingSpells = DBC.DBC.Spells.GetSpellsNameContain(spellName);
+         //List<SpellEntry> matchingSpells = DBC.DBC.Spells.GetSpellsNameContain(spellName);
 
-         matchingSpells.ForEach(s => session.SendMessage("[" + s.ID + "] " + s.Name));
+         //matchingSpells.ForEach(s => session.SendMessage("[" + s.ID + "] " + s.Name));
       }
 
       public static List<SpellEntry> LookUp(string spellName)
       {
-         return DBC.DBC.Spells.GetSpellsNameContain(spellName);
+         //return DBC.DBC.Spells.GetSpellsNameContain(spellName);
+         throw new System.Exception("Not Implemented");
       }
 
       [ChatCommand("learn", "Takes a spellID or spellName and learns it")]
@@ -38,12 +40,13 @@ namespace CobolWow.Tools.Chat.Commands
          }
          else
          {
-            List<SpellEntry> matchingSpells = DBC.DBC.Spells.GetSpellsNameContain(spellNameOrID);
-            if (matchingSpells.Count > 0) session.Entity.SpellCollection.AddSpell(matchingSpells.First());
-            else
-            {
-               session.SendMessage("A spell was not found with the ID or Name '" + spellNameOrID + "'");
-            }
+            throw new System.Exception("Not Implemented");
+            //List<SpellEntry> matchingSpells = DBC.DBC.Spells.GetSpellsNameContain(spellNameOrID);
+            //if (matchingSpells.Count > 0) session.Entity.SpellCollection.AddSpell(matchingSpells.First());
+            //else
+            //{
+            //   session.SendMessage("A spell was not found with the ID or Name '" + spellNameOrID + "'");
+            //}
          }
       }
 
@@ -52,11 +55,11 @@ namespace CobolWow.Tools.Chat.Commands
       {
          string playerName = args[0].ToLower();
 
-         PlayerEntity player = WorldServer.Sessions.Find(s => s.Character.Name.ToLower() == playerName).Entity;
+         PlayerEntity player = WorldServer.Sessions.Find(s => s.Character.name.ToLower() == playerName).Entity;
 
          if (player != null)
          {
-            session.Teleport(player.Character.MapID, player.X, player.Y, player.Z);
+            session.Teleport(player.Character.map, player.X, player.Y, player.Z);
          }
          else
          {

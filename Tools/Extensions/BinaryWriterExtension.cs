@@ -35,6 +35,20 @@ namespace CobolWow.Tools.Extensions
          return (int)(endPos - startPos);
       }
 
+      public static void Write(BinaryWriter writer)
+      {
+         writer.Write((byte)0x0);
+      }
+
+
+      public static void WriteNull(this BinaryWriter writer, uint count)
+      {
+         for (uint i = 0; i < count; i++)
+         {
+            Write(writer);
+         }
+      }
+
       public static void WriteCString(this BinaryWriter writer, string input)
       {
          byte[] data = Encoding.UTF8.GetBytes(input + '\0');

@@ -4,15 +4,14 @@ using System.Collections.Generic;
 
 using CobolWow.Net;
 using CobolWow.Network;
-using CobolWow.Tools.DBC;
 using CobolWow.Communication;
 using CobolWow.Game.Managers;
 using CobolWow.Network.Packets;
 using CobolWow.Tools.Extensions;
-using CobolWow.Tools.DBC.Tables;
 using CobolWow.Tools.Database.Tables;
 using CobolWow.Game.Constants.Game.Update;
 using CobolWow.Game.Constants.Game.World.Entity;
+using CobolWow.Database20.Tables;
 
 namespace CobolWow.Game.Entitys
 {
@@ -81,7 +80,7 @@ namespace CobolWow.Game.Entitys
 
       public override string Name
       {
-         get { return Template.name; }
+         get { return Template.Name; }
       }
 
 
@@ -116,7 +115,7 @@ namespace CobolWow.Game.Entitys
       }
 
       public CreatureEntry TEntry;
-      public CreatureTemplateEntry Template;
+      public CreatureTemplate Template;
 
       public UnitEntity(ObjectGUID objectGUID)
           : base(objectGUID)
@@ -125,36 +124,35 @@ namespace CobolWow.Game.Entitys
 
       public UnitEntity(CreatureEntry entry = null, ObjectGUID guid = null) : base((guid == null) ? ObjectGUID.GetUnitGUID((uint)entry.guid) : guid)
       {
-         new AIBrain(this);
+         //new AIBrain(this);
 
-         TEntry = entry;
+         //TEntry = entry;
 
-         CreatureTemplateEntry template = DBC.CreatureTemplates.Find(a => a.entry == entry.id);
+         //CreatureTemplate template = DBC.CreatureTemplates.Find(a => a.entry == entry.id);
 
-         Template = template;
+         //Template = template;
 
-         Type = (byte)0x9;
-         Entry = (byte)template.entry;
-         //Data = -248512512;
+         //Type = (byte)0x9;
+         //Entry = (byte)template.Entry;
+         ////Data = -248512512;
 
-         X = entry.position_x;
-         Y = entry.position_y;
-         Z = entry.position_z;
-         R = entry.orientation;
+         //X = entry.position_x;
+         //Y = entry.position_y;
+         //Z = entry.position_z;
+         //R = entry.orientation;
 
-         SetUpdateField<int>((int)EUnitFields.UNIT_NPC_FLAGS, template.npcflag);
-         SetUpdateField<int>((int)EUnitFields.UNIT_DYNAMIC_FLAGS, template.dynamicflags);
-         SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_FLAGS, template.unit_flags);
+         //SetUpdateField<int>((int)EUnitFields.UNIT_NPC_FLAGS, template.npcflag);
+         //SetUpdateField<int>((int)EUnitFields.UNIT_DYNAMIC_FLAGS, template.dynamicflags);
+         //SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_FLAGS, template.unit_flags);
 
-         SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_FACTIONTEMPLATE, template.faction_A);
+         //SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_FACTIONTEMPLATE, template.faction_A);
 
-         SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_HEALTH, entry.curhealth);
-         SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_MAXHEALTH, template.maxhealth);
-         SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_LEVEL, template.maxlevel);
-         DisplayID = (entry.modelid != 0) ? entry.modelid : TEntry.modelid;
+         //SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_HEALTH, entry.curhealth);
+         //SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_MAXHEALTH, template.maxhealth);
+         //SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_LEVEL, template.maxlevel);
+         //DisplayID = (entry.modelid != 0) ? entry.modelid : TEntry.modelid;
 
-         SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_CREATEDBY, 0);
-
+         //SetUpdateField<int>((int)EUnitFields.UNIT_FIELD_CREATEDBY, 0);
       }
 
       public void SetStandState(UnitStandStateType state)
@@ -186,7 +184,7 @@ namespace CobolWow.Game.Entitys
                   }
               }*/
 
-      public void Move(float targetX, float targetY, float targetZ)
+      public void Move(float target_position_x, float target_position_y, float target_position_z)
       {
          using (ServerPacket packet = new ServerPacket(WorldOpcodes.SMSG_MONSTER_MOVE))
          {
@@ -199,15 +197,15 @@ namespace CobolWow.Game.Entitys
             packet.Write(0); // sPLINE FLAG
             packet.Write(500); // TIME
             packet.Write(1);
-            packet.Write(targetX);
-            packet.Write(targetY);
-            packet.Write(targetZ);
+            packet.Write(target_position_x);
+            packet.Write(target_position_y);
+            packet.Write(target_position_z);
 
             World.PlayersWhoKnowUnit(this).ForEach(e => e.Session.SendPacket(packet));
 
-            X = targetX;
-            Y = targetY;
-            Z = targetZ;
+            X = target_position_x;
+            Y = target_position_y;
+            Z = target_position_z;
          }
       }
    }

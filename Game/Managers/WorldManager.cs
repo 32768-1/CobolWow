@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
 using CobolWow.Tools;
-using CobolWow.Network;
 using System.Threading;
 using CobolWow.Game.Entitys;
-using CobolWow.Tools.Database;
 using System.Collections.Generic;
 using CobolWow.Tools.Database.Tables;
-using CobolWow.Tools.Database.Helpers;
 using CobolWow.Communication.Outgoing.World.Update;
 
 namespace CobolWow.Game.Managers
@@ -121,7 +118,6 @@ namespace CobolWow.Game.Managers
                }
             }
          }
-
       }
 
       private bool Contains(T entity)
@@ -175,17 +171,17 @@ namespace CobolWow.Game.Managers
    {
       public override void GenerateEntitysForPlayer(PlayerEntity player)
       {
-         List<GameObject> gameObjects = DBGameObject.GetGameObjects(player, 100);
+         //List<GameObject> gameObjects = DBGameObject.GetGameObjects(player, 100);
 
-         gameObjects.ForEach(closeGO =>
-         {
-            GameObjectTemplate template = DBGameObject.GetGameObjectTemplate((uint)closeGO.ID);
+         //gameObjects.ForEach(closeGO =>
+         //{
+         //   GameObjectTemplate template = DBGameObject.GetGameObjectTemplate((uint)closeGO.ID);
 
-            if (template != null)
-            {
-               AddEntityToWorld(new GOEntity(closeGO, template));
-            }
-         });
+         //   if (template != null)
+         //   {
+         //      AddEntityToWorld(new GOEntity(closeGO, template));
+         //   }
+         //});
       }
 
       public override void SpawnEntityForPlayer(PlayerEntity player, GOEntity entity)
@@ -223,13 +219,13 @@ namespace CobolWow.Game.Managers
    {
       public override void GenerateEntitysForPlayer(PlayerEntity player)
       {
-         List<CreatureEntry> allUnits = DB.World.Table<CreatureEntry>().ToList();
+         //List<CreatureEntry> allUnits = DB.World.Table<CreatureEntry>().ToList();
 
-         List<CreatureEntry> unitsClose = allUnits
-             .FindAll(m => m.map == player.Character.MapID)
-             .FindAll(m => Helper.Distance(m.position_x, m.position_y, player.Character.X, player.Character.Y) < 500);
+         //List<CreatureEntry> unitsClose = allUnits
+         //    .FindAll(m => m.map == player.Character.map)
+         //    .FindAll(m => Helper.Distance(m.position_x, m.position_y, player.Character.position_x, player.Character.position_y) < 500);
 
-         unitsClose.ForEach(closeUnit => AddEntityToWorld(new UnitEntity(closeUnit)));
+         //unitsClose.ForEach(closeUnit => AddEntityToWorld(new UnitEntity(closeUnit)));
       }
 
       public override void SpawnEntityForPlayer(PlayerEntity player, UnitEntity entity)

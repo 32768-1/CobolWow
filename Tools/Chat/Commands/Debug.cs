@@ -29,9 +29,9 @@ namespace CobolWow.Tools.Chat.Commands
             packet.Write(0); // sPLINE FLAG
             packet.Write(100); // TIME
             packet.Write(1);
-            packet.Write(session.Character.X);
-            packet.Write(session.Character.Y);
-            packet.Write(session.Character.Z);
+            packet.Write(session.Character.position_x);
+            packet.Write(session.Character.position_y);
+            packet.Write(session.Character.position_z);
 
             session.SendPacket(packet);
          }

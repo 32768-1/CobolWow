@@ -5,7 +5,6 @@ using CobolWow.Game.Handlers;
 using CobolWow.Communication;
 using CobolWow.Network.Packets;
 using System.Collections.Generic;
-using CobolWow.Tools.Database.Helpers;
 using CobolWow.Communication.Outgoing.World.Update;
 using CobolWow.Communication.Incoming.World.Movement;
 using CobolWow.Communication.Outgoing.World.Movement;
@@ -72,12 +71,12 @@ namespace CobolWow.Game.Managers
 
       private static void SavePosition(WorldSession session, PCMoveInfo handler)
       {
-         session.Character.X = handler.X;
-         session.Character.Y = handler.Y;
-         session.Character.Z = handler.Z;
-         session.Character.Rotation = handler.R;
+         session.Character.position_x = handler.X;
+         session.Character.position_y = handler.Y;
+         session.Character.position_z = handler.Z;
+         session.Character.orientation = handler.R;
 
-         DBCharacters.UpdateCharacter(session.Character);
+         //DBCharacters.UpdateCharacter(session.Character);
       }
 
       private static void UpdateEntity(WorldSession session, PCMoveInfo handler)

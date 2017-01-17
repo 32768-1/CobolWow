@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Linq;
 using CobolWow.Net;
 using CobolWow.Tools;
 using CobolWow.Network;
-using CobolWow.Tools.DBC;
 using CobolWow.Game.Entitys;
 using CobolWow.Game.Handlers;
 using CobolWow.Communication;
-using CobolWow.Tools.DBC.Tables;
 using CobolWow.Tools.Database.Tables;
-using CobolWow.Tools.Database.Helpers;
 using CobolWow.Communication.Outgoing.World;
 using CobolWow.Communication.Incoming.World;
 using CobolWow.Communication.Outgoing.Players;
@@ -16,6 +14,8 @@ using CobolWow.Game.Constants.Game.World.Entity;
 using CobolWow.Communication.Incoming.World.Player;
 using CobolWow.Communication.Outgoing.World.Player;
 using CobolWow.Communication.Incoming.World.GameObject;
+using CobolWow.Database20.Tables;
+using CobolWow.DBC.Structs;
 
 namespace CobolWow.Game.Managers
 {
@@ -37,7 +37,8 @@ namespace CobolWow.Game.Managers
 
       public static void OnNameQueryPacket(WorldSession session, PCNameQuery packet)
       {
-         Character target = DBCharacters.Characters.Find(character => character.GUID == packet.GUID);
+         Logger.Log(LogType.Debug, "MiscManager OnNameQueryPacket.");
+         Character target = Database20.Characters.CharacterManager.GetCharacter((int)packet.GUID);
 
          if (target != null)
             session.SendPacket(new PSNameQueryResponse(target));
@@ -46,27 +47,26 @@ namespace CobolWow.Game.Managers
       public static void OnGameObjectQuery(WorldSession session, PCGameObjectQuery packet)
       {
          Logger.Log(LogType.Debug, "MiscManager OnGameObjectQuery.");
-         GameObjectTemplate template = DBGameObject.GameObjectTemplates.Find(g => g.Entry == packet.EntryID);
+         //GameObject_Template template = DBGameObject.GameObjectTemplates.Find(g => g.Entry == packet.EntryID);
          //session.sendPacket(new PSGameObjectQueryResponse(template));
          //session.sendMessage("Requested Info: " + template.Name + " " + (GameobjectTypes)template.Type);
       }
 
       private static void OnEmotePacket(WorldSession session, PCEmote packet)
       {
+         Logger.Log(LogType.Debug, "MiscManager OnEmotePacket.");
          session.SendPacket(new PSEmote(packet.EmoteID, session.Entity.ObjectGUID.RawGUID));
       }
 
       public static void OnTextEmotePacket(WorldSession session, PCTextEmote packet)
       {
          Logger.Log(LogType.Debug, "MiscManager OnTextEmotePacket.");
-         //TODO Get the targetname from the packet.GUID
+
          String targetName = session.Entity.Target != null ? session.Entity.Target.Name : null;
+         WorldServer.TransmitToAll(new PSTextEmote((int)session.Character.guid, (int)packet.EmoteID, (int)packet.TextID, targetName));
+         EmotesText textEmote = CobolWow.DBC.GetDBC<EmotesText>().SingleOrDefault(e => e.textid == packet.TextID);
 
-         WorldServer.TransmitToAll(new PSTextEmote((int)session.Character.GUID, (int)packet.EmoteID, (int)packet.TextID, targetName));
-
-         EmotesTextEntry textEmote = DBC.EmotesText.List.Find(e => e.ID == packet.TextID);
-
-         switch ((Emote)textEmote.TextID)
+         switch ((Emote)textEmote.textid)
          {
             case Emote.EMOTE_STATE_SLEEP:
             case Emote.EMOTE_STATE_SIT:
@@ -74,8 +74,8 @@ namespace CobolWow.Game.Managers
             case Emote.EMOTE_ONESHOT_NONE:
                break;
             default:
-               World.SessionsWhoKnow(session.Entity).ForEach(s => s.SendPacket(new PSEmote(textEmote.TextID, session.Entity.ObjectGUID.RawGUID)));
-               session.SendPacket(new PSEmote(textEmote.TextID, session.Entity.ObjectGUID.RawGUID));
+               World.SessionsWhoKnow(session.Entity).ForEach(s => s.SendPacket(new PSEmote(textEmote.textid, session.Entity.ObjectGUID.RawGUID)));
+               session.SendPacket(new PSEmote(textEmote.textid, session.Entity.ObjectGUID.RawGUID));
                break;
          }
       }
@@ -83,33 +83,33 @@ namespace CobolWow.Game.Managers
       public static void OnZoneUpdatePacket(WorldSession session, PCZoneUpdate packet)
       {
          Logger.Log(LogType.Debug, "MiscManager OnZoneUpdatePacket.");
-         session.SendMessage("[ZoneUpdate] ID:" + packet.ZoneID + " " + DBC.AreaTables.Find(a => a.ID == packet.ZoneID).Name);
+         //session.SendMessage("[ZoneUpdate] ID:" + packet.ZoneID + " " + DBC.AreaTables.Find(a => a.ID == packet.ZoneID).Name);
       }
 
       public static void OnAreaTriggerPacket(WorldSession session, PCAreaTrigger packet)
       {
          Logger.Log(LogType.Debug, "MiscManager OnAreaTriggerPacket.");
 
-         AreaTriggerTeleport areaTrigger = DBAreaTriggers.AreaTriggerTeleport.Find(at => at.ID == packet.TriggerID);
+         //AreaTriggerTeleport areaTrigger = DBAreaTriggers.AreaTriggerTeleport.Find(at => at.id == packet.TriggerID);
 
-         if (areaTrigger != null)
-         {
-            session.SendMessage("[AreaTrigger] ID:" + packet.TriggerID + " " + areaTrigger.Name);
-            session.Character.MapID = areaTrigger.TargetMap;
-            session.Character.X = areaTrigger.TargetX;
-            session.Character.Y = areaTrigger.TargetY;
-            session.Character.Z = areaTrigger.TargetZ;
-            session.Character.Rotation = areaTrigger.TargetR;
-            DBCharacters.UpdateCharacter(session.Character);
+         //if (areaTrigger != null)
+         //{
+         //   session.SendMessage("[AreaTrigger] ID:" + packet.TriggerID + " " + areaTrigger.name);
+         //   session.Character.map = areaTrigger.target_map;
+         //   session.Character.position_x = areaTrigger.target_position_x;
+         //   session.Character.position_y = areaTrigger.target_position_y;
+         //   session.Character.position_z = areaTrigger.target_position_z;
+         //   session.Character.orientation = areaTrigger.target_orientation;
+         //   //DBCharacters.UpdateCharacter(session.Character);
 
-            session.SendPacket(new PSTransferPending(areaTrigger.TargetMap));
-            session.SendPacket(new PSNewWorld(areaTrigger.TargetMap, areaTrigger.TargetX, areaTrigger.TargetY, areaTrigger.TargetZ, areaTrigger.TargetR));
+         //   session.SendPacket(new PSTransferPending(areaTrigger.target_map));
+         //   session.SendPacket(new PSNewWorld(areaTrigger.target_map, areaTrigger.target_position_x, areaTrigger.target_position_y, areaTrigger.target_position_z, areaTrigger.target_orientation));
 
-         }
-         else
-         {
-            session.SendMessage("[AreaTrigger] ID:" + packet.TriggerID);
-         }
+         //}
+         //else
+         //{
+         //   session.SendMessage("[AreaTrigger] ID:" + packet.TriggerID);
+         //}
       }
 
       public static void OnPingPacket(WorldSession session, PCPing packet)

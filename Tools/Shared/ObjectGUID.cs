@@ -43,6 +43,12 @@ namespace CobolWow.Game.Entitys
       public TypeID TypeID { get; private set; }
       public HighGUID HighGUID { get; private set; }
 
+      public ObjectGUID(ulong GUID, TypeID type)
+      {
+         RawGUID = GUID;
+         TypeID = type;
+      }
+
       public ObjectGUID(ulong GUID)
       {
          RawGUID = GUID;

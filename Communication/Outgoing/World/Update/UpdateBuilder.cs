@@ -99,7 +99,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
 
       public override string BuildInfo()
       {
-         return "[CreateGO] " + Entity.GameObjectTemplate.Name;
+         return "[CreateGO] " + Entity.GameObjectTemplate.name;
       }
    }
 

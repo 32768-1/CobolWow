@@ -7,8 +7,10 @@ using CobolWow.Tools;
 using CobolWow.Game.Entitys;
 using CobolWow.Network.Packets;
 using CobolWow.Tools.Extensions;
+using CobolWow.Database20.Tables;
 using CobolWow.Tools.Database.Tables;
 using CobolWow.Game.Constants.Game.Update;
+
 
 namespace CobolWow.Communication.Outgoing.World.Update
 {
@@ -167,7 +169,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
          using (BinaryWriter writer = new BinaryWriter(ms))
          {
             writer.Write((byte)ObjectUpdateType.UPDATETYPE_CREATE_OBJECT2);
-            writer.WritePackedUInt64((ulong)character.GUID);
+            writer.WritePackedUInt64((ulong)character.guid);
 
             writer.Write((byte)TypeID.TYPEID_PLAYER);
 
@@ -181,10 +183,10 @@ namespace CobolWow.Communication.Outgoing.World.Update
             writer.Write((UInt32)MovementFlags.MOVEFLAG_NONE);
             writer.Write((UInt32)Environment.TickCount); // Time?
 
-            writer.Write((float)character.X);
-            writer.Write((float)character.Y);
-            writer.Write((float)character.Z);
-            writer.Write((float)character.Rotation); // R
+            writer.Write((float)character.position_x);
+            writer.Write((float)character.position_y);
+            writer.Write((float)character.position_z);
+            writer.Write((float)character.orientation); // R
 
             // Movement speeds
             writer.Write((float)0);     // ????
@@ -199,7 +201,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
             writer.Write(0x1); // Unkown...
 
             entity = new PlayerEntity(character);
-            entity.ObjectGUID = new ObjectGUID((ulong)character.GUID);
+            entity.ObjectGUID = new ObjectGUID((ulong)character.guid, TypeID.TYPEID_PLAYER);
 
             entity.WriteUpdateFields(writer);
 
@@ -216,7 +218,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
          {
             writer.Write((byte)ObjectUpdateType.UPDATETYPE_CREATE_OBJECT2);
 
-            byte[] guidBytes = GenerateGuidBytes((ulong)character.GUID);
+            byte[] guidBytes = GenerateGuidBytes((ulong)character.guid);
             WriteBytes(writer, guidBytes, guidBytes.Length);
 
 
@@ -232,16 +234,16 @@ namespace CobolWow.Communication.Outgoing.World.Update
             writer.Write((UInt32)Environment.TickCount); // Time?
 
             // Position
-            writer.Write((float)character.X);
-            writer.Write((float)character.Y);
-            writer.Write((float)character.Z);
+            writer.Write((float)character.position_x);
+            writer.Write((float)character.position_y);
+            writer.Write((float)character.position_z);
             writer.Write((float)0); // R
 
             // Movement speeds
             writer.Write((float)0);     // ????
 
             writer.Write((float)2.5f);  // MOVE_WALK
-            writer.Write((float)7);     // MOVE_RUN
+            writer.Write((float)7 * 2);     // MOVE_RUN
             writer.Write((float)4.5f);  // MOVE_RUN_BACK
             writer.Write((float)4.72f * 20); // MOVE_SWIM
             writer.Write((float)2.5f);  // MOVE_SWIM_BACK
@@ -250,7 +252,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
             writer.Write(0x1); // Unkown...
 
             PlayerEntity a = new PlayerEntity(character);
-            a.GUID = (uint)character.GUID;
+            a.GUID = (uint)character.guid;
 
             a.WriteUpdateFields(writer);
 
@@ -282,7 +284,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
          return res;
       }
 
-      public static PSUpdateObject CreateGameObject(float x, float y, float z, GameObject gameObject, GameObjectTemplate template)
+      public static PSUpdateObject CreateGameObject(float x, float y, float z, GameObject gameObject, GameObject_Template template)
       {
          Logger.Log("CreateGameObject");
          using (MemoryStream ms = new MemoryStream())
@@ -363,7 +365,7 @@ namespace CobolWow.Communication.Outgoing.World.Update
             WriteBytes(writer, guidBytes, guidBytes.Length);
 
             //entity.SetUpdateField<float>((int)EObjectFields.OBJECT_FIELD_SCALE_X, (float)20f);
-            //entity.SetUpdateField<float>((int)EGameObjectFields.GAMEOBJECT_ROTATION, (float)1f);
+            //entity.SetUpdateField<float>((int)EGameObjectFields.GAMEOBJECT_orientation, (float)1f);
             //entity.SetUpdateField<uint>((int)EGameObjectFields.GAMEOBJECT_DISPLAYID, (uint)10);
             entity.WriteUpdateFields(writer);
 

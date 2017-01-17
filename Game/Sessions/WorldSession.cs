@@ -11,9 +11,8 @@ using CobolWow.Game.Sessions;
 using CobolWow.Game.Handlers;
 using CobolWow.Communication;
 using CobolWow.Network.Packets;
+using CobolWow.Database20.Tables;
 using CobolWow.Tools.Cryptography;
-using CobolWow.Tools.Database.Tables;
-using CobolWow.Tools.Database.Helpers;
 using CobolWow.Communication.Outgoing.Players;
 
 namespace CobolWow.Net
@@ -95,17 +94,17 @@ namespace CobolWow.Net
          ChatManager.SendSytemMessage(this, message);
       }
 
-      public void Teleport(int mapID, float X, float Y, float Z)
+      public void Teleport(int map, float X, float Y, float Z)
       {
-         Character.MapID = mapID;
-         Character.X = X;
-         Character.Y = Y;
-         Character.Z = Z;
-         Character.Rotation = 0;
-         DBCharacters.UpdateCharacter(Character);
+         Character.map = map;
+         Character.position_x = X;
+         Character.position_y = Y;
+         Character.position_z = Z;
+         Character.orientation = 0;
+         //DBCharacters.UpdateCharacter(Character);
 
-         using (PSTransferPending transPending = new PSTransferPending(mapID))
-         using (PSNewWorld newWorld = new PSNewWorld(mapID, X, Y, Z, 0))
+         using (PSTransferPending transPending = new PSTransferPending(map))
+         using (PSNewWorld newWorld = new PSNewWorld(map, X, Y, Z, 0))
          {
             SendPacket(transPending);
             SendPacket(newWorld);

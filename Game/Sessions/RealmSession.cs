@@ -12,9 +12,9 @@ namespace CobolWow.Game.Sessions
 {
    public class LoginSession : Session
    {
-      public SRP6 Srp6;
       public String accountName { get; set; }
       public byte[] SessionKey;
+      public Authenticator Authenticator;
       public LoginSession(int _connectionID, Socket _connectionSocket) : base(_connectionID, _connectionSocket) { }
 
       public override void Disconnect(object _obj = null)
@@ -39,11 +39,21 @@ namespace CobolWow.Game.Sessions
          using (MemoryStream ms = new MemoryStream())
          using (BinaryWriter writer = new BinaryWriter(ms))
          {
-            writer.Write(opcode);
-            writer.Write((ushort)data.Length);
-            writer.Write(data);
+            LoginOpcodes _opcode = (LoginOpcodes)opcode;
+            if (_opcode == LoginOpcodes.AUTH_LOGIN_CHALLENGE || _opcode == LoginOpcodes.AUTH_LOGIN_PROOF) //err.... was working without this in the past... -¿-
+            {
+               Logger.Log(LogType.Warning, "Sending Logon Opcode: " + _opcode);
+               writer.Write(opcode);
+               writer.Write(data);
+            }
+            else
+            {
+               writer.Write(opcode);
+               writer.Write((ushort)data.Length);
+               writer.Write(data);
+            }
 
-            Logger.Log(LogType.Database, connectionID + "Server -> Client [" + (LoginOpcodes)opcode + "] [0x" + opcode.ToString("X") + "]");
+            Logger.Log(LogType.Network, "Server -> Client [" + (LoginOpcodes)opcode + "] [0x" + opcode.ToString("X") + "]");
 
             SendData(ms.ToArray());
          }
@@ -52,7 +62,7 @@ namespace CobolWow.Game.Sessions
       public override void OnPacket(byte[] data)
       {
          short opcode = BitConverter.ToInt16(data, 0);
-         Logger.Log(LogType.Network, ConnectionRemoteIP + " Data Recived - OpCode:" + opcode.ToString("X2") + " " + ((LoginOpcodes)opcode));
+         Logger.Log(LogType.Network, " Data Recived - OpCode:" + opcode.ToString("X2") + " " + ((LoginOpcodes)opcode));
 
          LoginOpcodes code = (LoginOpcodes)opcode;
 

@@ -5,13 +5,13 @@ namespace CobolWow.Communication.Outgoing.World
 {
    public class LoginVerifyWorld : ServerPacket
    {
-      public LoginVerifyWorld(int mapID, float X, float Y, float Z, float Rotation) : base(WorldOpcodes.SMSG_LOGIN_VERIFY_WORLD)
+      public LoginVerifyWorld(int map, float X, float Y, float Z, float orientation) : base(WorldOpcodes.SMSG_LOGIN_VERIFY_WORLD)
       {
-         Write(mapID);
+         Write(map);
          Write(X);
          Write(Y);
          Write(Z);
-         Write(Rotation); // orientation
+         Write(orientation); // orientation
       }
    }
 }

@@ -89,7 +89,7 @@ namespace CobolWow.Game.Managers
          // Add it to known players
          remote.KnownPlayers.Add(player);
 
-         remote.Session.SendMessage("SpawningPlayer: " + player.Character.Name);
+         remote.Session.SendMessage("SpawningPlayer: " + player.Character.name);
       }
 
       private static void DespawnPlayer(PlayerEntity remote, PlayerEntity player)
@@ -100,7 +100,7 @@ namespace CobolWow.Game.Managers
          // Add it to known players
          remote.KnownPlayers.Remove(player);
 
-         remote.Session.SendMessage("DespawningPlayer: " + player.Character.Name);
+         remote.Session.SendMessage("DespawningPlayer: " + player.Character.name);
       }
 
       private static bool InRangeCheck(PlayerEntity playerA, PlayerEntity playerB)

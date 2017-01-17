@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 
 using CobolWow.Net;
-using CobolWow.Tools.Database.Helpers;
 using CobolWow.Communication.Outgoing.Players;
 
 namespace CobolWow.Tools.Chat.Commands
@@ -11,15 +10,15 @@ namespace CobolWow.Tools.Chat.Commands
    public class TeleportEntry
    {
       public string Name;
-      public int MapID;
+      public int Map;
       public float X;
       public float Y;
       public float Z;
 
-      public TeleportEntry(string name, int mapID, float x, float y, float z)
+      public TeleportEntry(string name, int map, float x, float y, float z)
       {
          Name = name;
-         mapID = MapID;
+         Map = map;
          X = x;
          Y = y;
          Z = z;
@@ -46,15 +45,15 @@ namespace CobolWow.Tools.Chat.Commands
 
          DistanceTeleportEntry location = FetchList(locationName).First();
 
-         session.Character.MapID = location.Entry.MapID;
-         session.Character.X = location.Entry.X;
-         session.Character.Y = location.Entry.Y;
-         session.Character.Z = location.Entry.Z;
-         session.Character.Rotation = 0;
-         DBCharacters.UpdateCharacter(session.Character);
+         session.Character.map = location.Entry.Map;
+         session.Character.position_x = location.Entry.X;
+         session.Character.position_y = location.Entry.Y;
+         session.Character.position_z = location.Entry.Z;
+         session.Character.orientation = 0;
+         //DBCharacters.UpdateCharacter(session.Character);
 
-         session.SendPacket(new PSTransferPending(location.Entry.MapID));
-         session.SendPacket(new PSNewWorld(location.Entry.MapID, location.Entry.X, location.Entry.Y, location.Entry.Z, 0));
+         session.SendPacket(new PSTransferPending(location.Entry.Map));
+         session.SendPacket(new PSNewWorld(location.Entry.Map, location.Entry.X, location.Entry.Y, location.Entry.Z, 0));
       }
 
       [ChatCommand("list", "")]

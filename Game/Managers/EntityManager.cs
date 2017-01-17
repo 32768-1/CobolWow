@@ -6,8 +6,8 @@ using CobolWow.Net;
 using CobolWow.Tools;
 using CobolWow.Network;
 using CobolWow.Tools.Database.Tables;
-using CobolWow.Tools.Database.Helpers;
 using CobolWow.Communication.Outgoing.World.Update;
+using CobolWow.Database20.Tables;
 
 namespace CobolWow.Game.Managers
 {
@@ -61,7 +61,7 @@ namespace CobolWow.Game.Managers
       {
          WorldServer.Sessions.FindAll(s => s.Character != character).ForEach(s =>
          {
-            s.SendMessage("Spawning: " + character.Name);
+            s.SendMessage("Spawning: " + character.name);
             s.SendPacket(PSUpdateObject.CreateCharacterUpdate(character));
          });
       }
@@ -77,25 +77,25 @@ namespace CobolWow.Game.Managers
 
       public static void SpawnGameObjects(WorldSession worldSession)
       {
-         worldSession.Entity.lastUpdateX = worldSession.Entity.X;
-         worldSession.Entity.lastUpdateY = worldSession.Entity.Y;
+         //worldSession.Entity.lastUpdateX = worldSession.Entity.X;
+         //worldSession.Entity.lastUpdateY = worldSession.Entity.Y;
 
-         worldSession.Entity.X = worldSession.Character.X;
-         worldSession.Entity.Y = worldSession.Character.Y;
-         worldSession.Entity.Z = worldSession.Character.Z;
+         //worldSession.Entity.X = worldSession.Character.position_x;
+         //worldSession.Entity.Y = worldSession.Character.position_y;
+         //worldSession.Entity.Z = worldSession.Character.position_z;
 
-         DateTime before = DateTime.Now;
-         List<GameObject> gameObjects = DBGameObject.GetGameObjects(worldSession.Entity, 100);
-         var ms = DateTime.Now.Subtract(before).Milliseconds;
+         //DateTime before = DateTime.Now;
+         //List<GameObject> gameObjects = DBGameObject.GetGameObjects(worldSession.Entity, 100);
+         //var ms = DateTime.Now.Subtract(before).Milliseconds;
 
-         worldSession.SendMessage("Sending " + gameObjects.Count + " in " + ms);
+         //worldSession.SendMessage("Sending " + gameObjects.Count + " in " + ms);
 
-         foreach (GameObject gameObject in gameObjects)
-         {
-            GameObjectTemplate template = DBGameObject.GetGameObjectTemplate((uint)gameObject.ID);
-            if (template != null)
-               worldSession.SendPacket(PSUpdateObject.CreateGameObject(gameObject.X, gameObject.Y, gameObject.Z, gameObject, template));
-         }
+         //foreach (GameObject gameObject in gameObjects)
+         //{
+         //   GameObjectTemplate template = DBGameObject.GetGameObjectTemplate((uint)gameObject.ID);
+         //   if (template != null)
+         //      worldSession.SendPacket(PSUpdateObject.CreateGameObject(gameObject.X, gameObject.Y, gameObject.Z, gameObject, template));
+         //}
       }
    }
 }

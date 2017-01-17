@@ -5,12 +5,10 @@ using System.Collections.Generic;
 using CobolWow.Net;
 using CobolWow.Communication;
 using CobolWow.Game.Handlers;
-using CobolWow.Game.Constants.Game;
-using CobolWow.Tools.Database.Tables;
-using CobolWow.Tools.Database.Helpers;
-using CobolWow.Game.Constants.Game.Mail;
 using CobolWow.Communication.Incoming.World.Mail;
 using CobolWow.Communication.Outgoing.World.Mail;
+using CobolWow.Database20.Tables;
+using CobolWow.Game.Constants.Game.Mail;
 
 namespace CobolWow.Game.Managers
 {
@@ -32,49 +30,67 @@ namespace CobolWow.Game.Managers
 
       private static void OnSendMail(WorldSession session, PCSendMail mail)
       {
-         Character reciever = DBCharacters.GetCharacter(mail.Reciever);
-         MailResponseResult result = MailResponseResult.MAIL_OK;
-         if (reciever == null) result = MailResponseResult.MAIL_ERR_RECIPIENT_NOT_FOUND;
-         else if (reciever.Name == session.Character.Name) result = MailResponseResult.MAIL_ERR_CANNOT_SEND_TO_SELF;
-         else if (session.Character.Money < mail.Money + 30) result = MailResponseResult.MAIL_ERR_NOT_ENOUGH_MONEY;
-         else if (DBMails.GetCharacterMails(reciever).Count > 100) result = MailResponseResult.MAIL_ERR_RECIPIENT_CAP_REACHED;
-         else if (reciever.Faction != session.Character.Faction) result = MailResponseResult.MAIL_ERR_NOT_YOUR_TEAM;
+         Character reciever = Database20.Characters.CharacterManager.GetCharacter(mail.Reciever);
 
-         if (mail.ItemGUID > 0)
-         {
-            throw new NotImplementedException();
-         }
+         //var result = MailResponseResult.MAIL_OK;
+         //if (reciever == null)
+         //{
+         //   result = MailResponseResult.MAIL_ERR_RECIPIENT_NOT_FOUND;
+         //}
+         //else if (reciever.name == session.Character.name)
+         //{
+         //   result = MailResponseResult.MAIL_ERR_CANNOT_SEND_TO_SELF;
+         //}
+         //else if (session.Character.money < mail.Money + 30)
+         //{
+         //   result = MailResponseResult.MAIL_ERR_NOT_ENOUGH_MONEY;
+         //}
+         //else if (Mails.Where(m => m.receiver == reciever.guid).ToArray().Length > 100)
+         //{
+         //   result = MailResponseResult.MAIL_ERR_RECIPIENT_CAP_REACHED;
+         //}
+         //else if (GetFaction(reciever) != GetFaction(session.Player.Character))
+         //{
+         //   result = MailResponseResult.MAIL_ERR_NOT_YOUR_TEAM;
+         //}
 
-         session.SendPacket(new PSSendMailResult(0, MailResponseType.MAIL_SEND, result));
+         //if (packet.ItemGUID > 0)
+         //{
+         //   throw new NotImplementedException();
+         //}
 
-         if (result == MailResponseResult.MAIL_OK)
-         {
-            session.Character.Money -= (int)(mail.Money + 30);
+         //session.SendPacket(new PSSendMailResult(0, MailResponseType.MAIL_SEND, result));
 
-            DBMails.AddMail(new CharacterMail()
-            {
-               MessageType = MailMessageType.MAIL_NORMAL,
-               Deliver_Time = 0,
-               Expire_Time = (int)GameUnits.DAY * 30,
-               Checked = mail.Body != "" ? MailCheckMask.MAIL_CHECK_MASK_HAS_BODY : MailCheckMask.MAIL_CHECK_MASK_COPIED,
-               COD = (int)mail.COD,
-               Has_Items = 0,
-               ItemTextID = 0,
-               Money = (int)mail.Money,
-               Sender = session.Character.GUID,
-               Reciever = reciever.GUID,
-               Subject = mail.Subject,
-               Stationery = MailStationery.MAIL_STATIONERY_DEFAULT,
-               MailTemplateID = 0,
-               Body = mail.Body
-            });
-         }
+         //if (result == MailResponseResult.MAIL_OK)
+         //{
+         //   session.Player.Character.money -= (int)(packet.Money + 30);
+         //   Mails.Add(
+         //       new mail()
+         //       {
+         //          messageType = (byte)MailMessageType.MAIL_NORMAL,
+         //          deliver_time = 0,
+         //          expire_time = (int)GameUnits.DAY * 30,
+         //          @checked =
+         //                   packet.Body != ""
+         //                       ? (byte)MailCheckMask.MAIL_CHECK_MASK_HAS_BODY
+         //                       : (byte)MailCheckMask.MAIL_CHECK_MASK_COPIED,
+         //          cod = (int)packet.COD,
+         //          has_items = 0,
+         //          itemTextId = 0,
+         //          money = (int)packet.Money,
+         //          sender = session.Player.Character.guid,
+         //          receiver = reciever.guid,
+         //          subject = packet.Subject,
+         //          stationery = (sbyte)MailStationery.MAIL_STATIONERY_DEFAULT,
+         //          mailTemplateId = 0
+         //       });
+         //}
       }
 
       private static void OnGetMailList(WorldSession session, PCGetMailList handler)
       {
-         List<CharacterMail> Mails = DBMails.GetCharacterMails(session.Character);
-         session.SendPacket(new PSMailListResult(Mails));
+         //List<CharacterMail> Mails = DBMails.GetCharacterMails(session.Character);
+         //session.SendPacket(new PSMailListResult(Mails));
       }
    }
 }

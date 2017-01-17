@@ -1,16 +1,16 @@
 ﻿using System;
 using CobolWow.Tools;
-using CobolWow.Tools.DBC;
 using CobolWow.Game.Spells;
 using CobolWow.Game.Constants;
-using CobolWow.Tools.DBC.Tables;
 using System.Collections.Generic;
-using CobolWow.Tools.Database.Tables;
-using CobolWow.Tools.Database.Helpers;
 using CobolWow.Game.Constants.Game.Update;
 using CobolWow.Communication.Outgoing.Players;
 using CobolWow.Game.Constants.Game.World.Entity;
 using CobolWow.Communication.Outgoing.World.Update;
+using CobolWow.Database20.Items;
+using CobolWow.Database20.Tables;
+using CobolWow.DBC.Structs;
+using CobolWow.Game.Constants.Character;
 
 namespace CobolWow.Game.Entitys
 {
@@ -39,7 +39,7 @@ namespace CobolWow.Game.Entitys
       {
          get
          {
-            return Character.Name;
+            return Character.name;
          }
       }
 
@@ -54,7 +54,7 @@ namespace CobolWow.Game.Entitys
          get { return (int)EUnitFields.PLAYER_END - 0x4; }
       }
 
-      public PlayerEntity(Character character) : base(new ObjectGUID((uint)character.GUID, TypeID.TYPEID_PLAYER, HighGUID.HIGHGUID_MO_TRANSPORT))
+      public PlayerEntity(Character character) : base(new ObjectGUID((uint)character.guid, TypeID.TYPEID_PLAYER, HighGUID.HIGHGUID_MO_TRANSPORT))
       {
          Character = character;
          KnownPlayers = new List<PlayerEntity>();
@@ -64,7 +64,7 @@ namespace CobolWow.Game.Entitys
          //TODO Fix spellCollection DBC
          //SpellCollection = new SpellCollection(this);
 
-         GUID = (uint)character.GUID;
+         GUID = (uint)character.guid;
          //SetUpdateField<Int32>((int)EObjectFields.OBJECT_FIELD_GUID, character.GUID);
 
          SetUpdateField<byte>((int)EObjectFields.OBJECT_FIELD_TYPE, (byte)25);
@@ -81,29 +81,34 @@ namespace CobolWow.Game.Entitys
          XP = 0;
          Scale = 1;
 
-         ChrRacesEntry Race = DBC.CharacterRacesEntry.List.Find(r => (RaceID)r.RaceID == character.Race);
-         SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_FACTIONTEMPLATE, Race.FactionID);
+         ChrRaces Race = CobolWow.DBC.GetDBC<ChrRaces>().Find(r => (RaceID)r.RaceID == character.race);
+         Logger.Log(LogType.Warning, "Gender: " + (Gender)character.gender);
+
+         SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_FACTIONTEMPLATE, (int)Race.FactionID);
 
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_POWER1, 1000);
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_MAXPOWER1, 1000);
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_MAXPOWER2, 1000);
-         SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_0, (byte)character.Race, 0);
-         SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_0, (byte)character.Class, 1);
-         SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_0, (byte)character.Gender, 2);
+         SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_0, (byte)character.race, 0);
+         SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_0, (byte)character.@class, 1);
+         SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_0, (byte)character.gender, 2);
          SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_0, 0, 3); //POwer 1 = rage
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_BASEATTACKTIME, 2000);
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_OFFHANDATTACKTIME, 2000);
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_RANGEDATTACKTIME, 2000);
 
-         SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_DISPLAYID, DBCTemp.GetModel(character));
-         SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_NATIVEDISPLAYID, DBCTemp.GetModel(character));
+         SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_DISPLAYID, character.gender);
+         int model = (Gender)character.gender == Gender.Male ? (int)Race.ModelM : (int)Race.ModelF;
+         Logger.Log(LogType.Warning, "Model: " + model);
+
+         SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_NATIVEDISPLAYID, model);
 
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_MINDAMAGE, 1083927991);
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_MAXDAMAGE, 1086025143);
 
          SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_1, (byte)UnitStandStateType.UNIT_STAND_STATE_STAND, 0); // Stand State?
          SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_1, 0xEE, 1); //  if (getPowerType() == POWER_RAGE || getPowerType() == POWER_MANA)
-         SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_1, (character.Class == ClassID.Warrior) ? (byte)ShapeshiftForm.FORM_BATTLESTANCE : (byte)ShapeshiftForm.FORM_NONE, 2); // ShapeshiftForm?
+         SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_1, (character.@class == ClassID.Warrior) ? (byte)ShapeshiftForm.FORM_BATTLESTANCE : (byte)ShapeshiftForm.FORM_NONE, 2); // ShapeshiftForm?
          SetUpdateField<byte>((int)EUnitFields.UNIT_FIELD_BYTES_1, /* (byte)UnitBytes1_Flags.UNIT_BYTE1_FLAG_ALL */ 0, 3); // StandMiscFlags
 
          SetUpdateField<float>((int)EUnitFields.UNIT_MOD_CAST_SPEED, 1);
@@ -122,15 +127,16 @@ namespace CobolWow.Game.Entitys
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_MINRANGEDDAMAGE, 1074940196);
          SetUpdateField<Int32>((int)EUnitFields.UNIT_FIELD_MAXRANGEDDAMAGE, 1079134500);
 
+         Byte[] playerBytes = BitConverter.GetBytes(character.playerints);
+         Byte[] playerBytes2 = BitConverter.GetBytes(character.playerints2);
 
-         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES, character.Skin, 0);
-         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES, character.Face, 1);
-         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES, character.HairStyle, 2);
-         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES, character.HairColor, 3);
+         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES, playerBytes[0], 0);
+         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES, playerBytes[1], 1);
+         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES, playerBytes[2], 2);
+         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES, playerBytes[3], 3);
+         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES_2, playerBytes2[0], 0);
 
-         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES_2, character.Accessory, 0);
-
-         ItemTemplateEntry[] displayItems = DBC.ItemTemplates.GenerateInventoryByIDs(Helper.CSVStringToIntArray(character.Equipment));
+         ItemTemplateEntry[] displayItems = ItemManager.GenerateInventoryByIDs(Helper.CSVStringToIntArray(character.equipmentCache));
 
          for (byte index = 0; index < 19; index++)
          {
@@ -142,8 +148,6 @@ namespace CobolWow.Game.Entitys
                SetUpdateField<byte>((int)visualBase, (byte)displayItems[index].entry);
             }
          }
-
-         SetUpdateField<byte>((int)EUnitFields.PLAYER_BYTES_2, character.Accessory, 0);
 
          SetUpdateField<Int32>((int)EUnitFields.PLAYER_NEXT_LEVEL_XP, 400);
          SetUpdateField<Int32>((int)EUnitFields.PLAYER_SKILL_INFO_1_1, 26);
@@ -185,7 +189,7 @@ namespace CobolWow.Game.Entitys
          SetUpdateField<Int32>((int)1220, 1065353216);
          SetUpdateField<Int32>((int)1221, 1065353216);
          SetUpdateField<Int32>((int)EUnitFields.PLAYER_FIELD_WATCHED_FACTION_INDEX, -1);
-         SetUpdateField<Int32>((int)EUnitFields.PLAYER_FIELD_COINAGE, character.Money);
+         SetUpdateField<Int32>((int)EUnitFields.PLAYER_FIELD_COINAGE, character.money);
       }
 
 
@@ -193,19 +197,19 @@ namespace CobolWow.Game.Entitys
 
       public Net.WorldSession Session { get; set; }
 
-      public void TeleportTo(int mapID, float x, float y, float z)
+      public void TeleportTo(int map, float x, float y, float z)
       {
-         if (Character.MapID != mapID)
-            Session.SendPacket(new PSTransferPending(mapID));
+         if (Character.map != map)
+            Session.SendPacket(new PSTransferPending(map));
 
-         Character.MapID = mapID;
-         Character.X = x;
-         Character.Y = y;
-         Character.Z = z;
-         Character.Rotation = 0;
-         DBCharacters.UpdateCharacter(Character);
+         Character.map = map;
+         Character.position_x = x;
+         Character.position_y = y;
+         Character.position_z = z;
+         Character.orientation = 0;
+         //DBCharacters.UpdateCharacter(Character);
 
-         Session.SendPacket(new PSNewWorld(mapID, x, y, z, 0));
+         Session.SendPacket(new PSNewWorld(map, x, y, z, 0));
       }
    }
 }

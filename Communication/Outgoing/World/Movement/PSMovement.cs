@@ -14,7 +14,7 @@ namespace CobolWow.Communication.Outgoing.World.Movement
       {
          uint correctedMoveTime = (uint)Environment.TickCount;
 
-         byte[] packedGUID = PSUpdateObject.GenerateGuidBytes((ulong)session.Character.GUID);
+         byte[] packedGUID = PSUpdateObject.GenerateGuidBytes((ulong)session.Character.guid);
          PSUpdateObject.WriteBytes(this, packedGUID);
          PSUpdateObject.WriteBytes(this, (moveinfo.BaseStream as MemoryStream).ToArray());
 

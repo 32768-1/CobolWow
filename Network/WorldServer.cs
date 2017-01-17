@@ -29,7 +29,7 @@ namespace CobolWow.Network
 
       public static WorldSession GetSessionByPlayerName(string playerName)
       {
-         return WorldServer.Sessions.Find(user => user.Character.Name.ToLower() == playerName.ToLower());
+         return WorldServer.Sessions.Find(user => user.Character.name.ToLower() == playerName.ToLower());
       }
 
    }

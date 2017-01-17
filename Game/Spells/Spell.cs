@@ -1,5 +1,4 @@
-﻿using CobolWow.Tools.DBC.Tables;
-using CobolWow.Tools.Extensions;
+﻿using CobolWow.DBC.Structs;
 using CobolWow.Game.Constants.Game.World.Spell;
 
 namespace CobolWow.Game.Spells
@@ -23,7 +22,7 @@ namespace CobolWow.Game.Spells
       public Spell(SpellID spellID, SpellEntry spellEntry)
       {
          SpellID = spellID;
-         Name = spellEntry.Name;
+         Name = ""; //Todo?
          Cooldown = spellEntry.RecoveryTime;
          CooldownCatagory = spellEntry.CategoryRecoveryTime;
          Catagory = spellEntry.Category;

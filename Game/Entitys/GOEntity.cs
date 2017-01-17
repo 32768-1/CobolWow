@@ -1,6 +1,7 @@
 ﻿using System;
 using CobolWow.Tools.Database.Tables;
 using CobolWow.Game.Constants.Game.Update;
+using CobolWow.Database20.Tables;
 
 namespace CobolWow.Game.Entitys
 {
@@ -52,32 +53,32 @@ namespace CobolWow.Game.Entitys
       public override int DataLength { get { return (int)EGameObjectFields.GAMEOBJECT_END; } }
 
       public GameObject GameObject { get; private set; }
-      public GameObjectTemplate GameObjectTemplate { get; private set; }
+      public GameObject_Template GameObjectTemplate { get; private set; }
 
       public override string Name
       {
          get
          {
-            return GameObjectTemplate.Name;
+            return GameObjectTemplate.name;
          }
       }
 
-      public GOEntity(GameObject gameObject, GameObjectTemplate template) : base(ObjectGUID.GetGameObjectGUID())
+      public GOEntity(GameObject gameObject, GameObject_Template template) : base(ObjectGUID.GetGameObjectGUID())
       {
          GameObject = gameObject;
          GameObjectTemplate = template;
 
          Type = 0x21;
-         Entry = (byte)template.Entry;
-         Scale = (GameObjectTemplate.Size > 100) ? 1 : GameObjectTemplate.Size;
-         DisplayID = GameObjectTemplate.DisplayID;
-         Flags = template.Flag;
-         GOTypeID = template.Type;
+         Entry = (byte)template.entry;
+         Scale = (GameObjectTemplate.size > 100) ? 1 : GameObjectTemplate.size;
+         DisplayID = GameObjectTemplate.displayId;
+         Flags = (int)template.flags;
+         GOTypeID = template.type;
          X = gameObject.X;
          Y = gameObject.Y;
          Z = gameObject.Z;
 
-         Console.WriteLine("GO: " + template.Name + " " + (GOType)template.Type);
+         Console.WriteLine("GO: " + template.name + " " + (GOType)template.type);
 
          SetUpdateField<float>((int)EGameObjectFields.GAMEOBJECT_FACING, gameObject.R);
          //SetUpdateField<float>((int)EGameObjectFields.GAMEOBJECT_DYN_FLAGS, template.);
